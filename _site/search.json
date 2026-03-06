@@ -2,9 +2,12 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Project_prototype",
+    "title": "Story Broad",
     "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.\n\n1 + 1\n\n[1] 2"
+    "text": "Hello",
+    "crumbs": [
+      "Home"
+    ]
   },
   {
     "objectID": "about.html",
@@ -12,5 +15,212 @@
     "title": "About",
     "section": "",
     "text": "About this site\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "Minutes_of_Meeting/Minutes_of_Meeting_1.html",
+    "href": "Minutes_of_Meeting/Minutes_of_Meeting_1.html",
+    "title": "Minutes of Meeting 1",
+    "section": "",
+    "text": "# 1 Minutes of Meeting of Visual Analytics Project AY 25-26 JAN\nDate of Meeting      : 27 February 2026\nLocation                   :\nTime                           : 19:00 – 20:30\nAttendees                 :  Members\n                                    Mr. DODDAPANENI Virinchi                     DV\n                                    Mr. SU Bo-Han                                             BH\n                                    Mr. YU Dong Hui                                          DH\nNotes of Minutes\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nItem\n\nNotes\n\nAction\n\n\n\n\n\n\n\n\n\n\n\n\n\n1\n\nDiscussion of ideal data sets\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nBH: I prefer the energy sector data from CEIC because it provides unique industry-specific trends for our study.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDH: I prefer the professor’s fintech dataset as it represents a comprehensive population study of 48,723 real active customers over 12 months.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDV: This fintech dataset has a stronger analytic direction because it uniquely integrates 3.1 million transactions with app engagement and satisfaction scores.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCONFINFAD Fintech dataset\n\nBecause its multidimentsional design allows us to visualize complex relationships between product usuage, digital behavior, and customer churn.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n2\n\nDiscuss about the analytics strategy\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nBH: proposed using K-means Clustering to segment customers into high-value, inactive, and high/low spending groups.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDV: suggested incorporating time-related analysis, with the primary objective centered on Churn and Retention.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDH: concurred that this direction fully leverages the transaction-level depth of the dataset.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n3\n\nShiny App Design\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nBH: suggested developing 6 modules (2 per member).\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDH: emphasized that every visualization module must include a dedicated “Insights” or observation section at the bottom to explain the findings.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDV: recommended ensuring a logical flow between modules and adding a final summary report page.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n4\n\nTools & Workflow\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDV: recommended using Quarto for the project website and proposal development.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDV: proposed using Tableau to perform a quick correlation scan of the 50+ variables before formal coding in R.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n5\n\nNext Meeting day\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nConfirmed Date/Time: 5 March 2026 at 18:00.",
+    "crumbs": [
+      "Minutes of Meeting",
+      "Minutes of Meeting 1"
+    ]
+  },
+  {
+    "objectID": "Proposal/Data_Preparation.html",
+    "href": "Proposal/Data_Preparation.html",
+    "title": "Data Preparation",
+    "section": "",
+    "text": "pacman::p_load(\"ExPanDaR\", \"countrycode\", \"kableExtra\", \"tidyverse\", \"lubridate\")\n\n\n\n\n\ncustomer_data &lt;- read_csv(\"data/customer_data.csv\")\n\nSince the data was split into two files, we merged them using customer_id to complete the dataset for further exploration.\n\nstr(customer_data)\n\nspc_tbl_ [48,723 × 54] (S3: spec_tbl_df/tbl_df/tbl/data.frame)\n $ customer_id               : num [1:48723] 93716481 49020929 52690950 23199751 61997066 ...\n $ age                       : num [1:48723] 44 44 45 45 44 45 44 44 45 44 ...\n $ gender                    : chr [1:48723] \"Male\" \"Male\" \"Male\" \"Male\" ...\n $ location                  : chr [1:48723] \"Pereira, Risaralda\" \"Cali, Valle del Cauca\" \"Barranquilla, Atlántico\" \"Bogotá, Cundinamarca\" ...\n $ income_bracket            : chr [1:48723] \"Very High\" \"Medium\" \"High\" \"High\" ...\n $ occupation                : chr [1:48723] \"Engineer\" \"Construction Worker\" \"Construction Worker\" \"Electrician\" ...\n $ education_level           : chr [1:48723] \"Master\" \"Bachelor\" \"Bachelor\" \"High School\" ...\n $ marital_status            : chr [1:48723] \"Married\" \"Married\" \"Married\" \"Single\" ...\n $ household_size            : num [1:48723] 5 2 4 2 3 4 4 3 1 3 ...\n $ acquisition_channel       : chr [1:48723] \"Partnership\" \"Paid Ad\" \"Paid Ad\" \"Referral\" ...\n $ customer_segment          : chr [1:48723] \"occasional\" \"regular\" \"inactive\" \"inactive\" ...\n $ savings_account           : logi [1:48723] TRUE TRUE TRUE TRUE TRUE TRUE ...\n $ credit_card               : logi [1:48723] TRUE FALSE FALSE FALSE TRUE TRUE ...\n $ personal_loan             : logi [1:48723] FALSE FALSE FALSE FALSE FALSE FALSE ...\n $ investment_account        : logi [1:48723] FALSE FALSE TRUE TRUE FALSE TRUE ...\n $ insurance_product         : logi [1:48723] TRUE FALSE TRUE FALSE FALSE FALSE ...\n $ active_products           : num [1:48723] 1 5 3 2 1 1 1 4 2 3 ...\n $ app_logins_frequency      : num [1:48723] 15 30 4 15 19 15 44 22 7 11 ...\n $ feature_usage_diversity   : num [1:48723] 3 0 4 4 1 4 6 1 1 6 ...\n $ bill_payment_user         : logi [1:48723] FALSE TRUE TRUE TRUE FALSE TRUE ...\n $ auto_savings_enabled      : logi [1:48723] FALSE FALSE FALSE FALSE FALSE TRUE ...\n $ credit_utilization_ratio  : num [1:48723] 0.179 NA NA NA 0.404 ...\n $ international_transactions: num [1:48723] 1 1 1 1 0 0 0 0 0 1 ...\n $ failed_transactions       : num [1:48723] 0 0 0 1 0 0 1 1 0 0 ...\n $ tx_count                  : num [1:48723] 76 10 10 23 18 15 24 45 134 13 ...\n $ avg_tx_value              : num [1:48723] 1679872 5445810 640335 660180 14574469 ...\n $ total_tx_volume           : num [1:48723] 1.28e+08 5.45e+07 6.40e+06 1.52e+07 2.62e+08 ...\n $ first_tx                  : Date[1:48723], format: \"2023-01-05\" \"2023-02-05\" ...\n $ last_tx                   : Date[1:48723], format: \"2023-12-25\" \"2023-12-20\" ...\n $ base_satisfaction         : num [1:48723] 9.21 6.07 8.2 7.53 6.61 ...\n $ tx_satisfaction           : num [1:48723] 0.38 0.05 0.05 0.115 0.09 0.075 0.12 0.225 0.67 0.065 ...\n $ product_satisfaction      : num [1:48723] 0.6 0.2 0.6 0.4 0.4 0.6 0.4 0.4 0.6 0.8 ...\n $ satisfaction_score        : num [1:48723] 5 3 4 4 3 4 4 4 5 4 ...\n $ nps_score                 : num [1:48723] -7 -46 -29 -31 -47 -29 -34 -36 -4 -27 ...\n $ last_survey_date          : Date[1:48723], format: \"2023-12-16\" \"2023-05-05\" ...\n $ support_tickets_count     : num [1:48723] 1 1 0 2 2 1 1 0 2 0 ...\n $ resolved_tickets_ratio    : num [1:48723] 0 1 0 0.5 1 1 1 0 1 0 ...\n $ app_store_rating          : num [1:48723] 3.5 4 5 4.5 4 4 5 4.5 4.5 4.5 ...\n $ feedback_sentiment        : chr [1:48723] \"Neutral\" \"Positive\" \"Positive\" \"Positive\" ...\n $ feature_requests          : chr [1:48723] \"Budgeting tools\" NA NA \"Cryptocurrency trading, Budgeting tools\" ...\n $ complaint_topics          : chr [1:48723] NA NA NA NA ...\n $ clv_segment               : chr [1:48723] \"Gold\" \"Bronze\" \"Gold\" \"Bronze\" ...\n $ monthly_transaction_count : num [1:48723] 1.43 1.57 2.5 1.56 2.11 ...\n $ average_transaction_value : num [1:48723] 6054025 2127414 3575915 1513354 612674 ...\n $ total_transaction_volume  : num [1:48723] 60540250 23401550 35759150 21186950 11640800 ...\n $ transaction_frequency     : num [1:48723] 0.0308 0.0329 0.05 0.0478 0.0619 ...\n $ last_transaction_date     : Date[1:48723], format: \"2023-12-05\" \"2023-12-18\" ...\n $ preferred_transaction_type: chr [1:48723] \"Transfer\" \"Transfer\" \"Transfer\" \"Transfer\" ...\n $ first_transaction_date    : Date[1:48723], format: \"2023-01-05\" \"2023-02-05\" ...\n $ weekend_transaction_ratio : num [1:48723] 0.3 0.182 0.3 0.143 0.316 ...\n $ avg_daily_transactions    : num [1:48723] 0.0308 0.0329 0.05 0.0478 0.0619 ...\n $ customer_tenure           : num [1:48723] 11.63 11.5 8.77 10.73 11.63 ...\n $ churn_probability         : num [1:48723] 0.362 0.182 0.321 0.337 0.398 ...\n $ customer_lifetime_value   : num [1:48723] 3.12e+08 1.67e+08 1.94e+07 3.60e+07 3.05e+08 ...\n - attr(*, \"spec\")=\n  .. cols(\n  ..   customer_id = col_double(),\n  ..   age = col_double(),\n  ..   gender = col_character(),\n  ..   location = col_character(),\n  ..   income_bracket = col_character(),\n  ..   occupation = col_character(),\n  ..   education_level = col_character(),\n  ..   marital_status = col_character(),\n  ..   household_size = col_double(),\n  ..   acquisition_channel = col_character(),\n  ..   customer_segment = col_character(),\n  ..   savings_account = col_logical(),\n  ..   credit_card = col_logical(),\n  ..   personal_loan = col_logical(),\n  ..   investment_account = col_logical(),\n  ..   insurance_product = col_logical(),\n  ..   active_products = col_double(),\n  ..   app_logins_frequency = col_double(),\n  ..   feature_usage_diversity = col_double(),\n  ..   bill_payment_user = col_logical(),\n  ..   auto_savings_enabled = col_logical(),\n  ..   credit_utilization_ratio = col_double(),\n  ..   international_transactions = col_double(),\n  ..   failed_transactions = col_double(),\n  ..   tx_count = col_double(),\n  ..   avg_tx_value = col_double(),\n  ..   total_tx_volume = col_double(),\n  ..   first_tx = col_date(format = \"\"),\n  ..   last_tx = col_date(format = \"\"),\n  ..   base_satisfaction = col_double(),\n  ..   tx_satisfaction = col_double(),\n  ..   product_satisfaction = col_double(),\n  ..   satisfaction_score = col_double(),\n  ..   nps_score = col_double(),\n  ..   last_survey_date = col_date(format = \"\"),\n  ..   support_tickets_count = col_double(),\n  ..   resolved_tickets_ratio = col_double(),\n  ..   app_store_rating = col_double(),\n  ..   feedback_sentiment = col_character(),\n  ..   feature_requests = col_character(),\n  ..   complaint_topics = col_character(),\n  ..   clv_segment = col_character(),\n  ..   monthly_transaction_count = col_double(),\n  ..   average_transaction_value = col_double(),\n  ..   total_transaction_volume = col_double(),\n  ..   transaction_frequency = col_double(),\n  ..   last_transaction_date = col_date(format = \"\"),\n  ..   preferred_transaction_type = col_character(),\n  ..   first_transaction_date = col_date(format = \"\"),\n  ..   weekend_transaction_ratio = col_double(),\n  ..   avg_daily_transactions = col_double(),\n  ..   customer_tenure = col_double(),\n  ..   churn_probability = col_double(),\n  ..   customer_lifetime_value = col_double()\n  .. )\n - attr(*, \"problems\")=&lt;externalptr&gt; \n\n\n\ncustomer_data %&gt;%\n  filter(is.na(age)) %&gt;% \n  summarise(missing_customers = n_distinct(customer_id))\n\n# A tibble: 1 × 1\n  missing_customers\n              &lt;int&gt;\n1                 0\n\n\n\n\n\n\n\n\nunique(customer_data$location)\n\n [1] \"Pereira, Risaralda\"         \"Cali, Valle del Cauca\"     \n [3] \"Barranquilla, Atlántico\"    \"Bogotá, Cundinamarca\"      \n [5] \"Cartagena, Bolívar\"         \"Medellín, Antioquia\"       \n [7] \"Villavicencio, Meta\"        \"Ibagué, Tolima\"            \n [9] \"Manizales, Caldas\"          \"Cúcuta, Norte de Santander\"\n[11] \"Pasto, Nariño\"              \"Santa Marta, Magdalena\"    \n[13] \"Bucaramanga, Santander\"     \"Montería, Córdoba\"         \n[15] \"Neiva, Huila\"               \"Armenia, Quindío\"          \n[17] \"Valledupar, Cesar\"          \"Sincelejo, Sucre\"          \n\n\n\n\n\n\nmissing.values &lt;- customer_data %&gt;%\n  gather(key = \"key\", value = \"val\") %&gt;%\n  mutate(is.missing = is.na(val)) %&gt;%\n  group_by(key, is.missing) %&gt;%\n  summarise(num.missing = n(), .groups = 'drop') %&gt;%\n  filter(is.missing == TRUE) %&gt;%\n  select(-is.missing) %&gt;%\n  arrange(desc(num.missing)) \nmissing.values %&gt;% kable()\n\n\n\n\nkey\nnum.missing\n\n\n\n\ncomplaint_topics\n24346\n\n\ncredit_utilization_ratio\n18263\n\n\nfeature_requests\n16115\n\n\n\n\n\n\nmissing_values_by_loc &lt;- function(origin, vari = \"location\"){\n  prepare_missing_values_graph(origin, ts_id = vari)\n}\n\nmissing_values_by_loc(customer_data)\n\n\n\n\n\n\n\n\n\ncustomer_data &lt;- customer_data %&gt;%\n  mutate(age_group = case_when(\n    age &lt; 20 ~ \"Under 20\",\n    age &gt;= 20 & age &lt; 30 ~ \"20-29\",\n    age &gt;= 30 & age &lt; 40 ~ \"30-39\",\n    age &gt;= 40 & age &lt; 50 ~ \"40-49\",\n    age &gt;= 50 & age &lt; 60 ~ \"50-59\",\n    age &gt;= 60 ~ \"60 and above\",\n    TRUE ~ \"Unknown\" \n  )) %&gt;%\n  mutate(age_group = factor(age_group, levels = c(\"Under 20\", \"20-29\", \"30-39\", \"40-49\", \"50-59\", \"60 and above\", \"Unknown\")))\n\nmissing_values_by_age &lt;- function(origin, vari = \"age_group\"){\n  prepare_missing_values_graph(origin, ts_id = vari)\n}\n\nmissing_values_by_age(customer_data)\n\n\n\n\n\n\n\n\n\n\n\n\ncustomer_data_cleaned &lt;- customer_data %&gt;%\n  mutate(\n    complaint_topics = replace_na(complaint_topics, \"No Complaints\"),\n    feature_requests = replace_na(feature_requests, \"No Requests\"),\n    \n    credit_utilization_ratio = case_when(\n      is.na(credit_utilization_ratio) & (credit_card == 0 | is.na(credit_card)) ~ 0,\n      TRUE ~ credit_utilization_ratio\n    )\n  )\n\ncustomer_data_cleaned %&gt;%\n  summarise(\n    NA_complaints = sum(is.na(complaint_topics)),\n    NA_requests = sum(is.na(feature_requests)),\n    NA_credit = sum(is.na(credit_utilization_ratio))\n  ) %&gt;%\n  kable(caption = \"Missing Values After Imputation\") %&gt;%\n  kable_styling(bootstrap_options = c(\"striped\", \"hover\"))\n\n\nMissing Values After Imputation\n\n\nNA_complaints\nNA_requests\nNA_credit\n\n\n\n\n0\n0\n0\n\n\n\n\n\n\nmissing_values_by_loc(customer_data_cleaned)\n\n\n\n\n\n\n\n\n\nwrite_csv(customer_data_cleaned, \"data/colombia_customers_processed.csv\")\n\n\nnrow(customer_data_cleaned)\n\n[1] 48723",
+    "crumbs": [
+      "Data Analysis",
+      "Data Preparation"
+    ]
+  },
+  {
+    "objectID": "Proposal/Data_Preparation.html#step-by-step-data-preparation",
+    "href": "Proposal/Data_Preparation.html#step-by-step-data-preparation",
+    "title": "Data Preparation",
+    "section": "",
+    "text": "pacman::p_load(\"ExPanDaR\", \"countrycode\", \"kableExtra\", \"tidyverse\", \"lubridate\")\n\n\n\n\n\ncustomer_data &lt;- read_csv(\"data/customer_data.csv\")\n\nSince the data was split into two files, we merged them using customer_id to complete the dataset for further exploration.\n\nstr(customer_data)\n\nspc_tbl_ [48,723 × 54] (S3: spec_tbl_df/tbl_df/tbl/data.frame)\n $ customer_id               : num [1:48723] 93716481 49020929 52690950 23199751 61997066 ...\n $ age                       : num [1:48723] 44 44 45 45 44 45 44 44 45 44 ...\n $ gender                    : chr [1:48723] \"Male\" \"Male\" \"Male\" \"Male\" ...\n $ location                  : chr [1:48723] \"Pereira, Risaralda\" \"Cali, Valle del Cauca\" \"Barranquilla, Atlántico\" \"Bogotá, Cundinamarca\" ...\n $ income_bracket            : chr [1:48723] \"Very High\" \"Medium\" \"High\" \"High\" ...\n $ occupation                : chr [1:48723] \"Engineer\" \"Construction Worker\" \"Construction Worker\" \"Electrician\" ...\n $ education_level           : chr [1:48723] \"Master\" \"Bachelor\" \"Bachelor\" \"High School\" ...\n $ marital_status            : chr [1:48723] \"Married\" \"Married\" \"Married\" \"Single\" ...\n $ household_size            : num [1:48723] 5 2 4 2 3 4 4 3 1 3 ...\n $ acquisition_channel       : chr [1:48723] \"Partnership\" \"Paid Ad\" \"Paid Ad\" \"Referral\" ...\n $ customer_segment          : chr [1:48723] \"occasional\" \"regular\" \"inactive\" \"inactive\" ...\n $ savings_account           : logi [1:48723] TRUE TRUE TRUE TRUE TRUE TRUE ...\n $ credit_card               : logi [1:48723] TRUE FALSE FALSE FALSE TRUE TRUE ...\n $ personal_loan             : logi [1:48723] FALSE FALSE FALSE FALSE FALSE FALSE ...\n $ investment_account        : logi [1:48723] FALSE FALSE TRUE TRUE FALSE TRUE ...\n $ insurance_product         : logi [1:48723] TRUE FALSE TRUE FALSE FALSE FALSE ...\n $ active_products           : num [1:48723] 1 5 3 2 1 1 1 4 2 3 ...\n $ app_logins_frequency      : num [1:48723] 15 30 4 15 19 15 44 22 7 11 ...\n $ feature_usage_diversity   : num [1:48723] 3 0 4 4 1 4 6 1 1 6 ...\n $ bill_payment_user         : logi [1:48723] FALSE TRUE TRUE TRUE FALSE TRUE ...\n $ auto_savings_enabled      : logi [1:48723] FALSE FALSE FALSE FALSE FALSE TRUE ...\n $ credit_utilization_ratio  : num [1:48723] 0.179 NA NA NA 0.404 ...\n $ international_transactions: num [1:48723] 1 1 1 1 0 0 0 0 0 1 ...\n $ failed_transactions       : num [1:48723] 0 0 0 1 0 0 1 1 0 0 ...\n $ tx_count                  : num [1:48723] 76 10 10 23 18 15 24 45 134 13 ...\n $ avg_tx_value              : num [1:48723] 1679872 5445810 640335 660180 14574469 ...\n $ total_tx_volume           : num [1:48723] 1.28e+08 5.45e+07 6.40e+06 1.52e+07 2.62e+08 ...\n $ first_tx                  : Date[1:48723], format: \"2023-01-05\" \"2023-02-05\" ...\n $ last_tx                   : Date[1:48723], format: \"2023-12-25\" \"2023-12-20\" ...\n $ base_satisfaction         : num [1:48723] 9.21 6.07 8.2 7.53 6.61 ...\n $ tx_satisfaction           : num [1:48723] 0.38 0.05 0.05 0.115 0.09 0.075 0.12 0.225 0.67 0.065 ...\n $ product_satisfaction      : num [1:48723] 0.6 0.2 0.6 0.4 0.4 0.6 0.4 0.4 0.6 0.8 ...\n $ satisfaction_score        : num [1:48723] 5 3 4 4 3 4 4 4 5 4 ...\n $ nps_score                 : num [1:48723] -7 -46 -29 -31 -47 -29 -34 -36 -4 -27 ...\n $ last_survey_date          : Date[1:48723], format: \"2023-12-16\" \"2023-05-05\" ...\n $ support_tickets_count     : num [1:48723] 1 1 0 2 2 1 1 0 2 0 ...\n $ resolved_tickets_ratio    : num [1:48723] 0 1 0 0.5 1 1 1 0 1 0 ...\n $ app_store_rating          : num [1:48723] 3.5 4 5 4.5 4 4 5 4.5 4.5 4.5 ...\n $ feedback_sentiment        : chr [1:48723] \"Neutral\" \"Positive\" \"Positive\" \"Positive\" ...\n $ feature_requests          : chr [1:48723] \"Budgeting tools\" NA NA \"Cryptocurrency trading, Budgeting tools\" ...\n $ complaint_topics          : chr [1:48723] NA NA NA NA ...\n $ clv_segment               : chr [1:48723] \"Gold\" \"Bronze\" \"Gold\" \"Bronze\" ...\n $ monthly_transaction_count : num [1:48723] 1.43 1.57 2.5 1.56 2.11 ...\n $ average_transaction_value : num [1:48723] 6054025 2127414 3575915 1513354 612674 ...\n $ total_transaction_volume  : num [1:48723] 60540250 23401550 35759150 21186950 11640800 ...\n $ transaction_frequency     : num [1:48723] 0.0308 0.0329 0.05 0.0478 0.0619 ...\n $ last_transaction_date     : Date[1:48723], format: \"2023-12-05\" \"2023-12-18\" ...\n $ preferred_transaction_type: chr [1:48723] \"Transfer\" \"Transfer\" \"Transfer\" \"Transfer\" ...\n $ first_transaction_date    : Date[1:48723], format: \"2023-01-05\" \"2023-02-05\" ...\n $ weekend_transaction_ratio : num [1:48723] 0.3 0.182 0.3 0.143 0.316 ...\n $ avg_daily_transactions    : num [1:48723] 0.0308 0.0329 0.05 0.0478 0.0619 ...\n $ customer_tenure           : num [1:48723] 11.63 11.5 8.77 10.73 11.63 ...\n $ churn_probability         : num [1:48723] 0.362 0.182 0.321 0.337 0.398 ...\n $ customer_lifetime_value   : num [1:48723] 3.12e+08 1.67e+08 1.94e+07 3.60e+07 3.05e+08 ...\n - attr(*, \"spec\")=\n  .. cols(\n  ..   customer_id = col_double(),\n  ..   age = col_double(),\n  ..   gender = col_character(),\n  ..   location = col_character(),\n  ..   income_bracket = col_character(),\n  ..   occupation = col_character(),\n  ..   education_level = col_character(),\n  ..   marital_status = col_character(),\n  ..   household_size = col_double(),\n  ..   acquisition_channel = col_character(),\n  ..   customer_segment = col_character(),\n  ..   savings_account = col_logical(),\n  ..   credit_card = col_logical(),\n  ..   personal_loan = col_logical(),\n  ..   investment_account = col_logical(),\n  ..   insurance_product = col_logical(),\n  ..   active_products = col_double(),\n  ..   app_logins_frequency = col_double(),\n  ..   feature_usage_diversity = col_double(),\n  ..   bill_payment_user = col_logical(),\n  ..   auto_savings_enabled = col_logical(),\n  ..   credit_utilization_ratio = col_double(),\n  ..   international_transactions = col_double(),\n  ..   failed_transactions = col_double(),\n  ..   tx_count = col_double(),\n  ..   avg_tx_value = col_double(),\n  ..   total_tx_volume = col_double(),\n  ..   first_tx = col_date(format = \"\"),\n  ..   last_tx = col_date(format = \"\"),\n  ..   base_satisfaction = col_double(),\n  ..   tx_satisfaction = col_double(),\n  ..   product_satisfaction = col_double(),\n  ..   satisfaction_score = col_double(),\n  ..   nps_score = col_double(),\n  ..   last_survey_date = col_date(format = \"\"),\n  ..   support_tickets_count = col_double(),\n  ..   resolved_tickets_ratio = col_double(),\n  ..   app_store_rating = col_double(),\n  ..   feedback_sentiment = col_character(),\n  ..   feature_requests = col_character(),\n  ..   complaint_topics = col_character(),\n  ..   clv_segment = col_character(),\n  ..   monthly_transaction_count = col_double(),\n  ..   average_transaction_value = col_double(),\n  ..   total_transaction_volume = col_double(),\n  ..   transaction_frequency = col_double(),\n  ..   last_transaction_date = col_date(format = \"\"),\n  ..   preferred_transaction_type = col_character(),\n  ..   first_transaction_date = col_date(format = \"\"),\n  ..   weekend_transaction_ratio = col_double(),\n  ..   avg_daily_transactions = col_double(),\n  ..   customer_tenure = col_double(),\n  ..   churn_probability = col_double(),\n  ..   customer_lifetime_value = col_double()\n  .. )\n - attr(*, \"problems\")=&lt;externalptr&gt; \n\n\n\ncustomer_data %&gt;%\n  filter(is.na(age)) %&gt;% \n  summarise(missing_customers = n_distinct(customer_id))\n\n# A tibble: 1 × 1\n  missing_customers\n              &lt;int&gt;\n1                 0\n\n\n\n\n\n\n\n\nunique(customer_data$location)\n\n [1] \"Pereira, Risaralda\"         \"Cali, Valle del Cauca\"     \n [3] \"Barranquilla, Atlántico\"    \"Bogotá, Cundinamarca\"      \n [5] \"Cartagena, Bolívar\"         \"Medellín, Antioquia\"       \n [7] \"Villavicencio, Meta\"        \"Ibagué, Tolima\"            \n [9] \"Manizales, Caldas\"          \"Cúcuta, Norte de Santander\"\n[11] \"Pasto, Nariño\"              \"Santa Marta, Magdalena\"    \n[13] \"Bucaramanga, Santander\"     \"Montería, Córdoba\"         \n[15] \"Neiva, Huila\"               \"Armenia, Quindío\"          \n[17] \"Valledupar, Cesar\"          \"Sincelejo, Sucre\"          \n\n\n\n\n\n\nmissing.values &lt;- customer_data %&gt;%\n  gather(key = \"key\", value = \"val\") %&gt;%\n  mutate(is.missing = is.na(val)) %&gt;%\n  group_by(key, is.missing) %&gt;%\n  summarise(num.missing = n(), .groups = 'drop') %&gt;%\n  filter(is.missing == TRUE) %&gt;%\n  select(-is.missing) %&gt;%\n  arrange(desc(num.missing)) \nmissing.values %&gt;% kable()\n\n\n\n\nkey\nnum.missing\n\n\n\n\ncomplaint_topics\n24346\n\n\ncredit_utilization_ratio\n18263\n\n\nfeature_requests\n16115\n\n\n\n\n\n\nmissing_values_by_loc &lt;- function(origin, vari = \"location\"){\n  prepare_missing_values_graph(origin, ts_id = vari)\n}\n\nmissing_values_by_loc(customer_data)\n\n\n\n\n\n\n\n\n\ncustomer_data &lt;- customer_data %&gt;%\n  mutate(age_group = case_when(\n    age &lt; 20 ~ \"Under 20\",\n    age &gt;= 20 & age &lt; 30 ~ \"20-29\",\n    age &gt;= 30 & age &lt; 40 ~ \"30-39\",\n    age &gt;= 40 & age &lt; 50 ~ \"40-49\",\n    age &gt;= 50 & age &lt; 60 ~ \"50-59\",\n    age &gt;= 60 ~ \"60 and above\",\n    TRUE ~ \"Unknown\" \n  )) %&gt;%\n  mutate(age_group = factor(age_group, levels = c(\"Under 20\", \"20-29\", \"30-39\", \"40-49\", \"50-59\", \"60 and above\", \"Unknown\")))\n\nmissing_values_by_age &lt;- function(origin, vari = \"age_group\"){\n  prepare_missing_values_graph(origin, ts_id = vari)\n}\n\nmissing_values_by_age(customer_data)\n\n\n\n\n\n\n\n\n\n\n\n\ncustomer_data_cleaned &lt;- customer_data %&gt;%\n  mutate(\n    complaint_topics = replace_na(complaint_topics, \"No Complaints\"),\n    feature_requests = replace_na(feature_requests, \"No Requests\"),\n    \n    credit_utilization_ratio = case_when(\n      is.na(credit_utilization_ratio) & (credit_card == 0 | is.na(credit_card)) ~ 0,\n      TRUE ~ credit_utilization_ratio\n    )\n  )\n\ncustomer_data_cleaned %&gt;%\n  summarise(\n    NA_complaints = sum(is.na(complaint_topics)),\n    NA_requests = sum(is.na(feature_requests)),\n    NA_credit = sum(is.na(credit_utilization_ratio))\n  ) %&gt;%\n  kable(caption = \"Missing Values After Imputation\") %&gt;%\n  kable_styling(bootstrap_options = c(\"striped\", \"hover\"))\n\n\nMissing Values After Imputation\n\n\nNA_complaints\nNA_requests\nNA_credit\n\n\n\n\n0\n0\n0\n\n\n\n\n\n\nmissing_values_by_loc(customer_data_cleaned)\n\n\n\n\n\n\n\n\n\nwrite_csv(customer_data_cleaned, \"data/colombia_customers_processed.csv\")\n\n\nnrow(customer_data_cleaned)\n\n[1] 48723",
+    "crumbs": [
+      "Data Analysis",
+      "Data Preparation"
+    ]
+  },
+  {
+    "objectID": "Proposal/eda.html",
+    "href": "Proposal/eda.html",
+    "title": "Exploratory Data Analysis",
+    "section": "",
+    "text": "pacman::p_load(tidyverse, ggstatsplot,ggplot2, plotly, scales,corrplot)",
+    "crumbs": [
+      "Data Analysis",
+      "Exploratory Data Analysis"
+    ]
+  },
+  {
+    "objectID": "Proposal/eda.html#installing-and-launching-required-r-packages",
+    "href": "Proposal/eda.html#installing-and-launching-required-r-packages",
+    "title": "Exploratory Data Analysis",
+    "section": "",
+    "text": "pacman::p_load(tidyverse, ggstatsplot,ggplot2, plotly, scales,corrplot)",
+    "crumbs": [
+      "Data Analysis",
+      "Exploratory Data Analysis"
+    ]
+  },
+  {
+    "objectID": "Proposal/eda.html#loading-the-data",
+    "href": "Proposal/eda.html#loading-the-data",
+    "title": "Exploratory Data Analysis",
+    "section": "2. Loading the data",
+    "text": "2. Loading the data\n\ndata_cleaned &lt;- read_csv(\"data/colombia_customers_processed.csv\")",
+    "crumbs": [
+      "Data Analysis",
+      "Exploratory Data Analysis"
+    ]
+  },
+  {
+    "objectID": "Proposal/eda_2.html",
+    "href": "Proposal/eda_2.html",
+    "title": "Exploratory Data Analysis_2",
+    "section": "",
+    "text": "pacman::p_load(tidyverse, ggstatsplot,ggplot2, plotly, scales,corrplot)"
+  },
+  {
+    "objectID": "Proposal/eda_2.html#installing-and-launching-required-r-packages",
+    "href": "Proposal/eda_2.html#installing-and-launching-required-r-packages",
+    "title": "Exploratory Data Analysis_2",
+    "section": "",
+    "text": "pacman::p_load(tidyverse, ggstatsplot,ggplot2, plotly, scales,corrplot)"
+  },
+  {
+    "objectID": "Proposal/eda_2.html#loading-the-data",
+    "href": "Proposal/eda_2.html#loading-the-data",
+    "title": "Exploratory Data Analysis_2",
+    "section": "2. Loading the data",
+    "text": "2. Loading the data\n\ndata_cleaned &lt;- read_csv(\"data/colombia_customers_processed.csv\")"
+  },
+  {
+    "objectID": "Proposal/eda_2.html#correlation-analysis",
+    "href": "Proposal/eda_2.html#correlation-analysis",
+    "title": "Exploratory Data Analysis_2",
+    "section": "3. Correlation Analysis",
+    "text": "3. Correlation Analysis\n\noptions(scipen = 999)\nplotcorrelation_clv &lt;- function (a) {\nggscatterstats(data = data_cleaned,\n                 x = total_tx_volume, y = customer_lifetime_value,\n                 type = \"nonparametic\") + facet_wrap(vars(!!sym(a)))\n}\n\n\nplotcorrelation_clv (\"occupation\")\n\n\n\n\n\n\n\n\n\nplotcorrelation_clv (\"education_level\")\n\n\n\n\n\n\n\n\n\nplotcorrelation_clv (\"marital_status\")\n\n\n\n\n\n\n\n\n\nplotcorrelation_clv (\"household_size\")\n\n\n\n\n\n\n\n\n\nplotcorrelation_clv (\"customer_segment\")\n\n\n\n\n\n\n\n\n\nplotcorrelation_clv (\"feedback_sentiment\")\n\n\n\n\n\n\n\n\n\nplotcorrelation_clv (\"age_group\")\n\n\n\n\n\n\n\n\n\ndata_cleaned &lt;- data_cleaned %&gt;%\n  mutate(clv_segment = factor(clv_segment, \n                              levels = c(\"Platinum\", \"Gold\", \"Silver\", \"Bronze\")))\n\np1 &lt;- ggplot(data = data_cleaned, \n             aes(y = total_tx_volume, x = age_group)) + \n  geom_boxplot(aes(fill = clv_segment)) + \n  scale_fill_brewer(palette = \"YlGnBu\") + \n  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) + \n  scale_y_log10(labels = comma)\n\np1 %&gt;% \n  ggplotly() %&gt;% \n  layout(boxmode = \"group\")"
+  },
+  {
+    "objectID": "Proposal/eda_2.html#demographic-vs.-behavioral",
+    "href": "Proposal/eda_2.html#demographic-vs.-behavioral",
+    "title": "Exploratory Data Analysis_2",
+    "section": "4. Demographic vs. Behavioral",
+    "text": "4. Demographic vs. Behavioral\n\ncategory_pref_data &lt;- merged_data_cleaned %&gt;%\n  group_by(customer_id, age, type) %&gt;%\n  summarise(sum_amount = sum(amount, na.rm = TRUE), .groups = 'drop') %&gt;%\n  pivot_wider(names_from = type, values_from = sum_amount, values_fill = 0)\n\nggcorrmat(\n  data = category_pref_data %&gt;% select(-customer_id),\n  type = \"nonparametric\",\n  colors = c(\"#B2182B\", \"white\", \"#2166AC\"),\n  title = \"Correlation Matrix: Age vs. Transaction Types\",\n  show.diag = FALSE\n)"
+  },
+  {
+    "objectID": "Proposal/eda_2.html#time-related-analysis",
+    "href": "Proposal/eda_2.html#time-related-analysis",
+    "title": "Exploratory Data Analysis_2",
+    "section": "5. Time-related Analysis",
+    "text": "5. Time-related Analysis"
+  },
+  {
+    "objectID": "Proposal/eda.html#preparing-and-cleaning-geographic-attributes",
+    "href": "Proposal/eda.html#preparing-and-cleaning-geographic-attributes",
+    "title": "Exploratory Data Analysis",
+    "section": "3. Preparing and cleaning geographic attributes",
+    "text": "3. Preparing and cleaning geographic attributes\n\ndata_cleaned &lt;- data_cleaned %&gt;%\n  mutate(dept_map = str_split_i(location, \", \", 2)) %&gt;%\n  mutate(dept_map = stri_trans_general(dept_map, \"Latin-ASCII\") %&gt;% str_to_title() %&gt;% str_trim())\n\ncol_sf &lt;- st_as_sf(gadm(country = \"COL\", level = 1, path = tempdir())) %&gt;%\n  mutate(NAME_1_clean = stri_trans_general(NAME_1, \"Latin-ASCII\") %&gt;% str_to_title() %&gt;% str_trim())\n\ndept_stats_clv &lt;- data_cleaned %&gt;%\n  group_by(dept_map) %&gt;%\n  summarise(\n    avg_clv = mean(customer_lifetime_value, na.rm = TRUE),\n    customer_count = n()\n  )\n\nmap_data_clv &lt;- col_sf %&gt;%\n  left_join(dept_stats_clv, by = c(\"NAME_1_clean\" = \"dept_map\"))",
+    "crumbs": [
+      "Data Analysis",
+      "Exploratory Data Analysis"
+    ]
+  },
+  {
+    "objectID": "Proposal/eda.html#performing-spatial-integration-and-thematic-mapping",
+    "href": "Proposal/eda.html#performing-spatial-integration-and-thematic-mapping",
+    "title": "Exploratory Data Analysis",
+    "section": "4. Performing spatial integration and thematic mapping",
+    "text": "4. Performing spatial integration and thematic mapping\n\nmy_map &lt;- tm_shape(map_data_clv) +\n  tm_polygons(\"avg_clv\", \n              style = \"quantile\",       \n              n = 5,                    \n              palette = \"YlGn\",        \n              title = \"Avg CLV (USD)\",\n              border.col = \"white\",\n              lwd = 0.5,\n  \n              legend.format = list(scientific = FALSE, big.mark = \",\", prefix = \"$\")) +\n  tm_layout(main.title = \"Colombia Average CLV by Department\",\n            main.title.position = \"center\",\n            main.title.size = 1.1,\n            frame = FALSE,\n            legend.outside = TRUE,\n            bg.color = \"white\") +\n  tm_compass(type = \"8star\", position = c(\"right\", \"top\")) +\n  tm_scale_bar(position = c(\"right\", \"bottom\"))\n\nmy_map",
+    "crumbs": [
+      "Data Analysis",
+      "Exploratory Data Analysis"
+    ]
+  },
+  {
+    "objectID": "Proposal/cda.html",
+    "href": "Proposal/cda.html",
+    "title": "Exploratory Data Analysis",
+    "section": "",
+    "text": "pacman::p_load(tidyverse, sf, tmap, geodata, stringi)",
+    "crumbs": [
+      "Data Analysis",
+      "Confirmatory Data Analysis"
+    ]
+  },
+  {
+    "objectID": "Proposal/cda.html#installing-and-launching-required-r-packages",
+    "href": "Proposal/cda.html#installing-and-launching-required-r-packages",
+    "title": "Exploratory Data Analysis",
+    "section": "",
+    "text": "pacman::p_load(tidyverse, sf, tmap, geodata, stringi)",
+    "crumbs": [
+      "Data Analysis",
+      "Confirmatory Data Analysis"
+    ]
+  },
+  {
+    "objectID": "Proposal/cda.html#loading-the-data",
+    "href": "Proposal/cda.html#loading-the-data",
+    "title": "Exploratory Data Analysis",
+    "section": "2. Loading the data",
+    "text": "2. Loading the data\n\ndata_cleaned &lt;- read_csv(\"data/colombia_customers_processed.csv\")",
+    "crumbs": [
+      "Data Analysis",
+      "Confirmatory Data Analysis"
+    ]
+  },
+  {
+    "objectID": "Proposal/cda.html#preparing-and-cleaning-geographic-attributes",
+    "href": "Proposal/cda.html#preparing-and-cleaning-geographic-attributes",
+    "title": "Exploratory Data Analysis",
+    "section": "3. Preparing and cleaning geographic attributes",
+    "text": "3. Preparing and cleaning geographic attributes\n\ndata_cleaned &lt;- data_cleaned %&gt;%\n  mutate(dept_map = str_split_i(location, \", \", 2)) %&gt;%\n  mutate(dept_map = stri_trans_general(dept_map, \"Latin-ASCII\") %&gt;% str_to_title() %&gt;% str_trim())\n\ncol_sf &lt;- st_as_sf(gadm(country = \"COL\", level = 1, path = tempdir())) %&gt;%\n  mutate(NAME_1_clean = stri_trans_general(NAME_1, \"Latin-ASCII\") %&gt;% str_to_title() %&gt;% str_trim())\n\ndept_stats_clv &lt;- data_cleaned %&gt;%\n  group_by(dept_map) %&gt;%\n  summarise(\n    avg_clv = mean(customer_lifetime_value, na.rm = TRUE),\n    customer_count = n()\n  )\n\nmap_data_clv &lt;- col_sf %&gt;%\n  left_join(dept_stats_clv, by = c(\"NAME_1_clean\" = \"dept_map\"))",
+    "crumbs": [
+      "Data Analysis",
+      "Confirmatory Data Analysis"
+    ]
+  },
+  {
+    "objectID": "Proposal/cda.html#performing-spatial-integration-and-thematic-mapping",
+    "href": "Proposal/cda.html#performing-spatial-integration-and-thematic-mapping",
+    "title": "Exploratory Data Analysis",
+    "section": "4. Performing spatial integration and thematic mapping",
+    "text": "4. Performing spatial integration and thematic mapping\n\nmy_map &lt;- tm_shape(map_data_clv) +\n  tm_polygons(\"avg_clv\", \n              style = \"quantile\",       \n              n = 5,                    \n              palette = \"YlGn\",        \n              title = \"Avg CLV (USD)\",\n              border.col = \"white\",\n              lwd = 0.5,\n  \n              legend.format = list(scientific = FALSE, big.mark = \",\", prefix = \"$\")) +\n  tm_layout(main.title = \"Colombia Average CLV by Department\",\n            main.title.position = \"center\",\n            main.title.size = 1.1,\n            frame = FALSE,\n            legend.outside = TRUE,\n            bg.color = \"white\") +\n  tm_compass(type = \"8star\", position = c(\"right\", \"top\")) +\n  tm_scale_bar(position = c(\"right\", \"bottom\"))\n\nmy_map",
+    "crumbs": [
+      "Data Analysis",
+      "Confirmatory Data Analysis"
+    ]
+  },
+  {
+    "objectID": "Proposal/eda.html#correlation-analysis",
+    "href": "Proposal/eda.html#correlation-analysis",
+    "title": "Exploratory Data Analysis",
+    "section": "3. Correlation Analysis",
+    "text": "3. Correlation Analysis\n\noptions(scipen = 999)\nplotcorrelation_clv &lt;- function (a) {\nggscatterstats(data = data_cleaned,\n                 x = total_tx_volume, y = customer_lifetime_value,\n                 type = \"nonparametic\") + facet_wrap(vars(!!sym(a)))\n}\n\n\nplotcorrelation_clv (\"occupation\")\n\n\n\n\n\n\n\n\n\nplotcorrelation_clv (\"education_level\")\n\n\n\n\n\n\n\n\n\nplotcorrelation_clv (\"marital_status\")\n\n\n\n\n\n\n\n\n\nplotcorrelation_clv (\"household_size\")\n\n\n\n\n\n\n\n\n\nplotcorrelation_clv (\"customer_segment\")\n\n\n\n\n\n\n\n\n\nplotcorrelation_clv (\"feedback_sentiment\")",
+    "crumbs": [
+      "Data Analysis",
+      "Exploratory Data Analysis"
+    ]
+  },
+  {
+    "objectID": "Proposal/eda.html#boxplot-comparision",
+    "href": "Proposal/eda.html#boxplot-comparision",
+    "title": "Exploratory Data Analysis",
+    "section": "4. Boxplot Comparision",
+    "text": "4. Boxplot Comparision\n\nplotcorrelation_clv (\"age_group\")\n\n\n\n\n\n\n\n\n\ndata_cleaned &lt;- data_cleaned %&gt;%\n  mutate(clv_segment = factor(clv_segment, \n                              levels = c(\"Platinum\", \"Gold\", \"Silver\", \"Bronze\")))\n\np1 &lt;- ggplot(data = data_cleaned, \n             aes(y = total_tx_volume, x = age_group)) + \n  geom_boxplot(aes(fill = clv_segment)) + \n  scale_fill_brewer(palette = \"YlGnBu\") + \n  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) + \n  scale_y_log10(labels = comma)\n\np1 %&gt;% \n  ggplotly() %&gt;% \n  layout(boxmode = \"group\")",
+    "crumbs": [
+      "Data Analysis",
+      "Exploratory Data Analysis"
+    ]
   }
 ]

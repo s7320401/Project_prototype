@@ -1,0 +1,99 @@
+---
+title: "Exploratory Data Analysis"
+author: "SU Bo-Han"
+date: "March 3, 2026"
+date-modified: "last-modified"
+format: 
+  html:
+    theme: cosmo  
+---
+
+## **1. Installing and launching required R packages**
+
+```{r}
+pacman::p_load(tidyverse, ggstatsplot,ggplot2, plotly, scales,corrplot)
+```
+
+## **2. Loading the data**
+
+```{r}
+#| message: false
+#| warning: false
+data_cleaned <- read_csv("data/colombia_customers_processed.csv")
+```
+
+## **3. Correlation Analysis**
+
+```{r}
+options(scipen = 999)
+plotcorrelation_clv <- function (a) {
+ggscatterstats(data = data_cleaned,
+                 x = total_tx_volume, y = customer_lifetime_value,
+                 type = "nonparametic") + facet_wrap(vars(!!sym(a)))
+}
+```
+
+```{r}
+#| message: false
+#| warning: false
+#| fig-width: 12
+#| fig-height: 8
+plotcorrelation_clv ("occupation")
+```
+
+```{r}
+#| message: false
+#| warning: false
+plotcorrelation_clv ("education_level")
+```
+
+```{r}
+#| message: false
+#| warning: false
+plotcorrelation_clv ("marital_status")
+```
+
+```{r}
+#| message: false
+#| warning: false
+#| fig-width: 12
+#| fig-height: 8
+plotcorrelation_clv ("household_size")
+```
+
+```{r}
+#| message: false
+#| warning: false
+plotcorrelation_clv ("customer_segment")
+```
+
+```{r}
+#| message: false
+#| warning: false
+plotcorrelation_clv ("feedback_sentiment")
+```
+
+## **4. Boxplot Comparision**
+
+```{r}
+#| message: false
+#| warning: false
+plotcorrelation_clv ("age_group")
+```
+
+```{r}
+data_cleaned <- data_cleaned %>%
+  mutate(clv_segment = factor(clv_segment, 
+                              levels = c("Platinum", "Gold", "Silver", "Bronze")))
+
+p1 <- ggplot(data = data_cleaned, 
+             aes(y = total_tx_volume, x = age_group)) + 
+  geom_boxplot(aes(fill = clv_segment)) + 
+  scale_fill_brewer(palette = "YlGnBu") + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) + 
+  scale_y_log10(labels = comma)
+
+p1 %>% 
+  ggplotly() %>% 
+  layout(boxmode = "group")
+```

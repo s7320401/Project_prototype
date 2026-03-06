@@ -1,0 +1,77 @@
+---
+title: "Confirmatory Data Analysis"
+author: "SU Bo-Han"
+date: "March 3, 2026"
+date-modified: "last-modified"
+format: 
+  html:
+    theme: cosmo  
+---
+
+## **1. Installing and launching required R packages**
+
+```{r}
+pacman::p_load(tidyverse, sf, tmap, geodata, stringi)
+```
+
+## **2. Loading the data**
+
+```{r}
+#| message: false
+#| warning: false
+data_cleaned <- read_csv("data/colombia_customers_processed.csv")
+```
+
+## **3. Preparing and cleaning geographic attributes**
+
+```{r}
+#| message: false
+#| warning: false
+# 3. Preparing and cleaning geographic attributes
+# 先下載到本地變數，避免直接串接導致 NULL 報錯
+col_raw <- gadm(country = "COL", level = 1, path = tempdir())
+
+col_sf <- st_as_sf(col_raw) %>%
+    mutate(NAME_1_clean = stri_trans_general(NAME_1, "Latin-ASCII") %>% 
+             str_to_title() %>% 
+             str_trim())
+
+dept_stats_clv <- data_cleaned %>% 
+  group_by(dept_map) %>% 
+  summarise(
+    avg_clv = mean(customer_lifetime_value, na.rm = TRUE),
+    customer_count = n()
+  )
+
+map_data_clv <- col_sf %>% 
+  left_join(dept_stats_clv, by = c("NAME_1_clean" = "dept_map"))
+```
+
+## **4. Performing spatial integration and thematic mapping**
+
+```{r}
+#| message: false
+#| warning: false
+#| fig-width: 10
+#| fig-height: 8
+my_map <- tm_shape(map_data_clv) +
+  tm_polygons("avg_clv", 
+              style = "quantile",       
+              n = 5,                    
+              palette = "YlGn",        
+              title = "Avg CLV (USD)",
+              border.col = "white",
+              lwd = 0.5,
+  
+              legend.format = list(scientific = FALSE, big.mark = ",", prefix = "$")) +
+  tm_layout(main.title = "Colombia Average CLV by Department",
+            main.title.position = "center",
+            main.title.size = 1.1,
+            frame = FALSE,
+            legend.outside = TRUE,
+            bg.color = "white") +
+  tm_compass(type = "8star", position = c("right", "top")) +
+  tm_scale_bar(position = c("right", "bottom"))
+
+my_map
+```

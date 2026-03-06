@@ -1,11 +1,13 @@
 ---
-title: "Project_prototype"
+title: "Story Broad"
+author:
+  - "DODDAPANENI Virinchi"
+  - "SU Bo-Han"
+  - "YU Dong Hui"
+format: 
+  html:
+    theme: cosmo  
+    toc: false    
 ---
 
-This is a Quarto website.
-
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
-
-```{r}
-1 + 1
-```
+Hello

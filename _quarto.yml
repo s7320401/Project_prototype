@@ -3,19 +3,42 @@ project:
 
 website:
   title: "Project_prototype"
-  navbar:
-    left:
+  sidebar:
+    style: "docked"
+    search: true
+    background: "#1a1a1a" 
+    contents:
       - href: index.qmd
         text: Home
-      - about.qmd
+      - section: "Minutes of Meeting" 
+        contents:
+          - href: "Minutes_of_Meeting/Minutes_of_Meeting_1.qmd"
+            text: "Minutes of Meeting 1"
+          - href: "Minutes_of_Meeting/Minutes_of_Meeting_2.qmd"
+            text: "Minutes of Meeting 2"
+          - href: "Minutes_of_Meeting/Minutes_of_Meeting_3.qmd"
+            text: "Minutes of Meeting 3"
+      - section: "Data Analysis" 
+        contents:
+          - href: "Proposal/Data_Preparation.qmd"
+            text: Data Preparation
+          - href: "Proposal/eda.qmd"
+            text: Exploratory Data Analysis
+          - href: none
+            text: Confirmatory Data Analysis
+          - href: clustering.qmd
+            text: Clustering Analysis
+          - href: tree.qmd
+            text: Decision Tree Analysis
 
 format:
   html:
-    theme:
-      - cosmo
-      - brand
+    theme: cosmo
+    header-includes: |
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     css: styles.css
     toc: true
 
 editor: visual
-

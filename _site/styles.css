@@ -1,1 +1,46 @@
 /* css styles */
+body {
+    font-family: "Avenir Next", "Avenir", "Montserrat", sans-serif;
+}
+
+h1, h2, h3, h4, .title {
+    font-family: "Avenir Next", "Avenir", sans-serif;
+    font-weight: 700;
+}
+
+#quarto-sidebar {
+    width: 280px !important; 
+    background-color: #1a1a1a !important;
+}
+
+.sidebar-title a {
+    color: #ffffff !important;
+    font-size: 1.4rem !important; 
+    font-family: 'Playfair Display', serif !important;
+    font-weight: 700 !important;
+    white-space: normal !important; 
+    display: block;
+    line-height: 1.2;
+}
+
+.sidebar-item-text, 
+.sidebar-navigation .nav-link,
+.quarto-sidebar-section-title {
+    color: #ffffff !important;
+}
+
+
+
+main.content {
+    max-width: 850px !important; 
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding: 2em;
+}
+
+
+#TOC {
+    font-family: "Avenir Next", "Avenir", sans-serif;
+    font-size: 0.85rem;
+    padding-top: 20px;
+}

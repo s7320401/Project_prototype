@@ -1,0 +1,135 @@
+---
+title: "Data Preparation"
+author: "SU Bo-Han"
+date: "March 1, 2026"
+date-modified: "last-modified"
+format: 
+  html:
+    theme: cosmo  
+---
+
+## **Step-by-Step Data Preparation**
+
+### **1. Installing and launching required R packages**
+
+```{r}
+#| message: false
+#| warning: false
+pacman::p_load("ExPanDaR", "countrycode", "kableExtra", "tidyverse", "lubridate")
+```
+
+### **2. Loading and merging the data**
+
+```{r}
+#| message: false
+#| warning: false
+customer_data <- read_csv("data/customer_data.csv")
+```
+
+Since the data was split into two files, we merged them using `customer_id` to complete the dataset for further exploration.
+
+```{r}
+str(customer_data)
+```
+
+```{r}
+customer_data %>%
+  filter(is.na(age)) %>% 
+  summarise(missing_customers = n_distinct(customer_id))
+```
+
+### **3. Dataset overview**
+
+#### **3.1 Unique Location**
+
+```{r}
+unique(customer_data$location)
+```
+
+#### **3.2 Missing values**
+
+```{r}
+#| message: false
+#| warning: false
+missing.values <- customer_data %>%
+  gather(key = "key", value = "val") %>%
+  mutate(is.missing = is.na(val)) %>%
+  group_by(key, is.missing) %>%
+  summarise(num.missing = n(), .groups = 'drop') %>%
+  filter(is.missing == TRUE) %>%
+  select(-is.missing) %>%
+  arrange(desc(num.missing)) 
+missing.values %>% kable()
+```
+
+```{r}
+#| fig-width: 12
+#| fig-height: 8
+#| message: false
+#| warning: false
+missing_values_by_loc <- function(origin, vari = "location"){
+  prepare_missing_values_graph(origin, ts_id = vari)
+}
+
+missing_values_by_loc(customer_data)
+```
+
+```{r}
+#| fig-width: 12
+#| fig-height: 8
+customer_data <- customer_data %>%
+  mutate(age_group = case_when(
+    age < 20 ~ "Under 20",
+    age >= 20 & age < 30 ~ "20-29",
+    age >= 30 & age < 40 ~ "30-39",
+    age >= 40 & age < 50 ~ "40-49",
+    age >= 50 & age < 60 ~ "50-59",
+    age >= 60 ~ "60 and above",
+    TRUE ~ "Unknown" 
+  )) %>%
+  mutate(age_group = factor(age_group, levels = c("Under 20", "20-29", "30-39", "40-49", "50-59", "60 and above", "Unknown")))
+
+missing_values_by_age <- function(origin, vari = "age_group"){
+  prepare_missing_values_graph(origin, ts_id = vari)
+}
+
+missing_values_by_age(customer_data)
+```
+
+#### **3.3 Treating Missing values**
+
+```{r}
+customer_data_cleaned <- customer_data %>%
+  mutate(
+    complaint_topics = replace_na(complaint_topics, "No Complaints"),
+    feature_requests = replace_na(feature_requests, "No Requests"),
+    
+    credit_utilization_ratio = case_when(
+      is.na(credit_utilization_ratio) & (credit_card == 0 | is.na(credit_card)) ~ 0,
+      TRUE ~ credit_utilization_ratio
+    )
+  )
+
+customer_data_cleaned %>%
+  summarise(
+    NA_complaints = sum(is.na(complaint_topics)),
+    NA_requests = sum(is.na(feature_requests)),
+    NA_credit = sum(is.na(credit_utilization_ratio))
+  ) %>%
+  kable(caption = "Missing Values After Imputation") %>%
+  kable_styling(bootstrap_options = c("striped", "hover"))
+```
+
+```{r}
+#| fig-width: 12
+#| fig-height: 8
+missing_values_by_loc(customer_data_cleaned)
+```
+
+```{r}
+write_csv(customer_data_cleaned, "data/colombia_customers_processed.csv")
+```
+
+```{r}
+nrow(customer_data_cleaned)
+```
