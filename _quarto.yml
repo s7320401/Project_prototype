@@ -26,9 +26,9 @@ website:
             text: Exploratory Data Analysis
           - href: "Proposal/cda.qmd"
             text: Confirmatory Data Analysis
-          - href: "Proposal/Clustering Analysis.qmd"
+          - href: "Proposal/Clustering_Analysis.qmd"
             text: Clustering Analysis
-          - href: "Proposal/Decision Tree.qmd"
+          - href: "Proposal/Decision_Tree.qmd"
             text: Decision Tree Analysis
 
 format:
