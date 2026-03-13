@@ -15,7 +15,7 @@ format:
 ```{r}
 #| message: false
 #| warning: false
-pacman::p_load("ExPanDaR", "countrycode", "kableExtra", "tidyverse", "lubridate")
+pacman::p_load(ExPanDaR, kableExtra, tidyverse, lubridate)
 ```
 
 ### **2. Loading and merging the data**
@@ -23,19 +23,49 @@ pacman::p_load("ExPanDaR", "countrycode", "kableExtra", "tidyverse", "lubridate"
 ```{r}
 #| message: false
 #| warning: false
-customer_data <- read_csv("data/customer_data.csv")
+df_customers <- read_csv("data/customer_data.csv")    
+df_transactions <- read_csv("data/transactions_data.csv") 
 ```
 
 Since the data was split into two files, we merged them using `customer_id` to complete the dataset for further exploration.
 
 ```{r}
-str(customer_data)
+str(df_customers)
 ```
 
 ```{r}
-customer_data %>%
-  filter(is.na(age)) %>% 
-  summarise(missing_customers = n_distinct(customer_id))
+str(df_transactions)
+```
+
+```{r}
+df_transactions <- df_transactions %>%
+  mutate(date = as.Date(date))
+```
+
+```{r}
+df_tx_agg <- df_transactions %>%
+  group_by(customer_id) %>%
+  summarise(
+    raw_tx_count = n(),
+    raw_total_amount = sum(amount, na.rm = TRUE),
+    raw_avg_amount = mean(amount, na.rm = TRUE),
+    raw_median_amount = median(amount, na.rm = TRUE),
+    raw_sd_amount = sd(amount, na.rm = TRUE),
+    raw_min_amount = min(amount, na.rm = TRUE),
+    raw_max_amount = max(amount, na.rm = TRUE),
+    raw_first_tx_date = min(date, na.rm = TRUE),
+    raw_last_tx_date = max(date, na.rm = TRUE),
+    raw_payment_ratio = sum(type == "Payment", na.rm = TRUE) / n(),
+    raw_transfer_ratio = sum(type == "Transfer", na.rm = TRUE) / n(),
+    raw_withdrawal_ratio = sum(type == "Withdrawal", na.rm = TRUE) / n(),
+    raw_active_months = n_distinct(month(date))
+  ) %>%
+  ungroup()
+
+final_df <- df_customers %>%
+  left_join(df_tx_agg, by = "customer_id")
+
+head(final_df)
 ```
 
 ### **3. Dataset overview**
@@ -43,7 +73,7 @@ customer_data %>%
 #### **3.1 Unique Location**
 
 ```{r}
-unique(customer_data$location)
+unique(final_df$location)
 ```
 
 #### **3.2 Missing values**
@@ -51,7 +81,7 @@ unique(customer_data$location)
 ```{r}
 #| message: false
 #| warning: false
-missing.values <- customer_data %>%
+missing.values <- final_df %>%
   gather(key = "key", value = "val") %>%
   mutate(is.missing = is.na(val)) %>%
   group_by(key, is.missing) %>%
@@ -71,13 +101,13 @@ missing_values_by_loc <- function(origin, vari = "location"){
   prepare_missing_values_graph(origin, ts_id = vari)
 }
 
-missing_values_by_loc(customer_data)
+missing_values_by_loc(final_df)
 ```
 
 ```{r}
 #| fig-width: 12
 #| fig-height: 8
-customer_data <- customer_data %>%
+final_df <- final_df %>%
   mutate(age_group = case_when(
     age < 20 ~ "Under 20",
     age >= 20 & age < 30 ~ "20-29",
@@ -93,13 +123,13 @@ missing_values_by_age <- function(origin, vari = "age_group"){
   prepare_missing_values_graph(origin, ts_id = vari)
 }
 
-missing_values_by_age(customer_data)
+missing_values_by_age(final_df)
 ```
 
 #### **3.3 Treating Missing values**
 
 ```{r}
-customer_data_cleaned <- customer_data %>%
+final_df_cleaned <- final_df %>%
   mutate(
     complaint_topics = replace_na(complaint_topics, "No Complaints"),
     feature_requests = replace_na(feature_requests, "No Requests"),
@@ -110,7 +140,7 @@ customer_data_cleaned <- customer_data %>%
     )
   )
 
-customer_data_cleaned %>%
+final_df_cleaned %>%
   summarise(
     NA_complaints = sum(is.na(complaint_topics)),
     NA_requests = sum(is.na(feature_requests)),
@@ -123,13 +153,13 @@ customer_data_cleaned %>%
 ```{r}
 #| fig-width: 12
 #| fig-height: 8
-missing_values_by_loc(customer_data_cleaned)
+missing_values_by_loc(final_df_cleaned)
 ```
 
 ```{r}
-write_csv(customer_data_cleaned, "data/colombia_customers_processed.csv")
+#write_csv(final_df, "colombia_customers_processed.csv")
 ```
 
 ```{r}
-nrow(customer_data_cleaned)
+nrow(final_df)
 ```

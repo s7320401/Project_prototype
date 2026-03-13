@@ -9,7 +9,7 @@ website:
     background: "#1a1a1a" 
     contents:
       - href: index.qmd
-        text: Home
+        text: Story Broad
       - section: "Minutes of Meeting" 
         contents:
           - href: "Minutes_of_Meeting/Minutes_of_Meeting_1.qmd"
@@ -24,11 +24,11 @@ website:
             text: Data Preparation
           - href: "Proposal/eda.qmd"
             text: Exploratory Data Analysis
-          - href: none
+          - href: "Proposal/cda.qmd"
             text: Confirmatory Data Analysis
-          - href: clustering.qmd
+          - href: "Proposal/Clustering Analysis.qmd"
             text: Clustering Analysis
-          - href: tree.qmd
+          - href: "Proposal/Decision Tree.qmd"
             text: Decision Tree Analysis
 
 format:

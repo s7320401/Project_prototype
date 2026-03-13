@@ -1,7 +1,7 @@
 ---
 title: "Exploratory Data Analysis"
-author: "SU Bo-Han"
-date: "March 3, 2026"
+author: "YU DONGHUI"
+date: "March 13, 2026"
 date-modified: "last-modified"
 format: 
   html:
@@ -22,78 +22,212 @@ pacman::p_load(tidyverse, ggstatsplot,ggplot2, plotly, scales,corrplot)
 data_cleaned <- read_csv("data/colombia_customers_processed.csv")
 ```
 
-## **3. Correlation Analysis**
+## **3. Distribution of Key Variables**
 
 ```{r}
-options(scipen = 999)
-plotcorrelation_clv <- function (a) {
-ggscatterstats(data = data_cleaned,
-                 x = total_tx_volume, y = customer_lifetime_value,
-                 type = "nonparametic") + facet_wrap(vars(!!sym(a)))
-}
+data_cleaned %>%
+  mutate(
+    log_total_tx_volume = log1p(total_tx_volume),
+    log_tx_count = log1p(tx_count),
+    log_avg_tx_value = log1p(avg_tx_value)
+  ) %>%
+  select(
+    churn_probability,
+    customer_tenure,
+    satisfaction_score,
+    nps_score,
+    support_tickets_count,
+    active_products,
+    log_total_tx_volume,
+    log_tx_count,
+    log_avg_tx_value
+  ) %>%
+  pivot_longer(cols = everything(), names_to = "variable", values_to = "value") %>%
+  ggplot(aes(x = value)) +
+  geom_histogram(bins = 30, fill = "darkseagreen3", color = "white") +
+  facet_wrap(~ variable, scales = "free") +
+  theme_minimal()
 ```
 
+## **4. Correlation Analysis of Churn-Related Variables**
+
 ```{r}
+corr_df <- data_cleaned %>%
+  select(
+    churn_probability,
+    total_tx_volume,
+    tx_count,
+    avg_tx_value,
+    monthly_transaction_count,
+    transaction_frequency,
+    avg_daily_transactions,
+    customer_tenure,
+    satisfaction_score,
+    nps_score,
+    support_tickets_count,
+    resolved_tickets_ratio,
+    active_products,
+    feature_usage_diversity,
+    credit_utilization_ratio
+  )
+
+corr_mat <- cor(corr_df, use = "complete.obs", method = "spearman")
+
+corrplot(
+  corr_mat,
+  method = "color",
+  type = "upper",
+  tl.col = "black",
+  tl.cex = 0.7
+)
+```
+
+## **5. Supplementary Check: CLV Segment Profiling**
+
+```{r}
+profile_summary <- data_cleaned %>%
+  group_by(clv_segment) %>%
+  summarise(
+    avg_clv = mean(customer_lifetime_value, na.rm = TRUE),
+    avg_tx_volume = mean(total_tx_volume, na.rm = TRUE),
+    avg_tx_count = mean(tx_count, na.rm = TRUE),
+    avg_products = mean(active_products, na.rm = TRUE),
+    avg_satisfaction = mean(satisfaction_score, na.rm = TRUE),
+    avg_churn = mean(churn_probability, na.rm = TRUE)
+  )
+
+profile_summary
+
+profile_summary %>%
+  pivot_longer(-clv_segment, names_to = "metric", values_to = "value") %>%
+  ggplot(aes(x = clv_segment, y = value, fill = clv_segment)) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ metric, scales = "free") +
+  theme_minimal()
+```
+
+## **6. Churn Risk Analysis**
+
+```{r}
+
 #| message: false
 #| warning: false
 #| fig-width: 12
-#| fig-height: 8
-plotcorrelation_clv ("occupation")
+#| fig-height: 5
+
+p_nps <- ggplot(data_cleaned, aes(x = nps_score, y = churn_probability)) +
+  geom_jitter(alpha = 0.15, width = 1, height = 0.01, color = "steelblue") +
+  geom_smooth(method = "loess", se = TRUE, color = "darkred") +
+  labs(
+    title = "Churn Probability vs NPS Score",
+    x = "NPS Score",
+    y = "Churn Probability"
+  ) +
+  theme_minimal()
+
+p_nps
+
 ```
 
 ```{r}
-#| message: false
-#| warning: false
-plotcorrelation_clv ("education_level")
-```
 
-```{r}
-#| message: false
-#| warning: false
-plotcorrelation_clv ("marital_status")
-```
-
-```{r}
 #| message: false
 #| warning: false
 #| fig-width: 12
-#| fig-height: 8
-plotcorrelation_clv ("household_size")
+#| fig-height: 5
+
+p_satisfaction_box <- ggplot(
+  data_cleaned,
+  aes(
+    x = factor(satisfaction_score, ordered = TRUE),
+    y = churn_probability,
+    fill = factor(satisfaction_score, ordered = TRUE)
+  )
+) +
+  geom_boxplot(show.legend = FALSE) +
+  labs(
+    title = "Churn Probability across Satisfaction Score Levels",
+    x = "Satisfaction Score",
+    y = "Churn Probability"
+  ) +
+  theme_minimal()
+
+p_satisfaction_box
+
 ```
+
+## **7. Churn Probability by Number of Support Tickets**
+
+```{r}
+
+#| message: false
+#| warning: false
+#| fig-width: 8
+#| fig-height: 5
+
+support_summary <- data_cleaned %>%
+  group_by(support_tickets_count) %>%
+  summarise(
+    avg_churn = mean(churn_probability, na.rm = TRUE),
+    n = n()
+  )
+
+ggplot(support_summary, aes(x = support_tickets_count, y = avg_churn)) +
+  geom_line(color = "steelblue", linewidth = 1) +
+  geom_point(color = "darkred", size = 2.5) +
+  geom_text(aes(label = n), vjust = -0.8, size = 3) +
+  labs(
+    title = "Average Churn Probability by Number of Support Tickets",
+    x = "Number of Support Tickets",
+    y = "Average Churn Probability"
+  ) +
+  theme_minimal()
+
+```
+
+## **8. Customer Tenure vs Churn**
+
+```{r}
+
+ggplot(
+  data_cleaned,
+  aes(
+    x = customer_tenure,
+    y = churn_probability
+  )
+) +
+  geom_point(alpha = 0.08, color = "steelblue") +
+  geom_smooth(method = "loess", se = TRUE, color = "darkred") +
+  labs(
+    title = "Churn Probability by Customer Tenure",
+    x = "Customer Tenure",
+    y = "Churn Probability"
+  ) +
+  theme_minimal()
+
+```
+
+## **9. Active Products vs Churn**
 
 ```{r}
 #| message: false
 #| warning: false
-plotcorrelation_clv ("customer_segment")
-```
+#| fig-width: 8
+#| fig-height: 5
 
-```{r}
-#| message: false
-#| warning: false
-plotcorrelation_clv ("feedback_sentiment")
-```
-
-## **4. Boxplot Comparision**
-
-```{r}
-#| message: false
-#| warning: false
-plotcorrelation_clv ("age_group")
-```
-
-```{r}
-data_cleaned <- data_cleaned %>%
-  mutate(clv_segment = factor(clv_segment, 
-                              levels = c("Platinum", "Gold", "Silver", "Bronze")))
-
-p1 <- ggplot(data = data_cleaned, 
-             aes(y = total_tx_volume, x = age_group)) + 
-  geom_boxplot(aes(fill = clv_segment)) + 
-  scale_fill_brewer(palette = "YlGnBu") + 
-  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) + 
-  scale_y_log10(labels = comma)
-
-p1 %>% 
-  ggplotly() %>% 
-  layout(boxmode = "group")
+ggplot(
+  data_cleaned,
+  aes(
+    x = factor(active_products),
+    y = churn_probability,
+    fill = factor(active_products)
+  )
+) +
+  geom_boxplot(show.legend = FALSE) +
+  labs(
+    title = "Churn Probability by Number of Active Products",
+    x = "Number of Active Products",
+    y = "Churn Probability"
+  ) +
+  theme_minimal()
 ```

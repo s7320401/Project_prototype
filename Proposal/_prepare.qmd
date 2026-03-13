@@ -27,22 +27,20 @@ data_cleaned <- read_csv("data/colombia_customers_processed.csv")
 ```{r}
 #| message: false
 #| warning: false
-# 3. Preparing and cleaning geographic attributes
-# 先下載到本地變數，避免直接串接導致 NULL 報錯
-col_raw <- gadm(country = "COL", level = 1, path = tempdir())
-
-col_sf <- st_as_sf(col_raw) %>%
-    mutate(NAME_1_clean = stri_trans_general(NAME_1, "Latin-ASCII") %>% 
-             str_to_title() %>% 
-             str_trim())
-
 dept_stats_clv <- data_cleaned %>% 
+  # 1. Create dept_map by cleaning the 'location' column
+  mutate(dept_map = stri_trans_general(location, "Latin-ASCII") %>% 
+           str_to_title() %>% 
+           str_trim()) %>%
+  # 2. Now you can group by the column you just created
   group_by(dept_map) %>% 
   summarise(
     avg_clv = mean(customer_lifetime_value, na.rm = TRUE),
     customer_count = n()
   )
+```
 
+```{r}
 map_data_clv <- col_sf %>% 
   left_join(dept_stats_clv, by = c("NAME_1_clean" = "dept_map"))
 ```
@@ -55,14 +53,13 @@ map_data_clv <- col_sf %>%
 #| fig-width: 10
 #| fig-height: 8
 my_map <- tm_shape(map_data_clv) +
-  tm_polygons("avg_clv", 
-              style = "quantile",       
-              n = 5,                    
-              palette = "YlGn",        
+  tm_polygons("avg_clv",
+              style = "quantile",
+              n = 5,
+              palette = "YlGn",
               title = "Avg CLV (USD)",
               border.col = "white",
               lwd = 0.5,
-  
               legend.format = list(scientific = FALSE, big.mark = ",", prefix = "$")) +
   tm_layout(main.title = "Colombia Average CLV by Department",
             main.title.position = "center",
@@ -73,5 +70,13 @@ my_map <- tm_shape(map_data_clv) +
   tm_compass(type = "8star", position = c("right", "top")) +
   tm_scale_bar(position = c("right", "bottom"))
 
+# 顯示地圖
 my_map
+```
+
+```{r}
+head(col_sf$NAME_1_clean, 10)
+
+# 查看你計算好的數據裡前 10 個省份名稱
+head(dept_stats_clv$dept_map, 10)
 ```

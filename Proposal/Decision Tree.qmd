@@ -1,0 +1,178 @@
+---
+title: "Decision Tree"
+author: "SU Bo-Han"
+date: "March 13, 2026"
+date-modified: "last-modified"
+format: 
+  html:
+    theme: cosmo  
+---
+
+# **Load Packages and Data**
+
+```{r}
+pacman::p_load(tidyverse, rpart, rpart.plot, sparkline, visNetwork, 
+               caret, ranger, patchwork, randomForest)
+
+df <- read.csv("data/colombia_customers_processed.csv") %>%
+  select(-customer_id, -first_tx, -last_tx, -last_survey_date, 
+         -last_transaction_date, -first_transaction_date, -age_group)
+```
+
+# **Regression Tree**
+
+### **Basic Regression Tree model**
+
+```{r}
+anova.model <- function(min_split, complexity_parameter, max_depth) {
+  rpart(churn_probability ~ ., 
+        data = df,          
+        method = "anova", 
+        control = rpart.control(minsplit = min_split, 
+                                cp = complexity_parameter, 
+                                maxdepth = max_depth))
+}
+fit_tree <- anova.model(5, 0.001, 10)
+```
+
+### **Visualising the Regression Tree**
+
+```{r}
+visTree(fit_tree, edgesFontSize = 14, nodesFontSize = 16, width = "100%")
+```
+
+```{r}
+#| message: false
+#| warning: false
+printcp(fit_tree)
+```
+
+```{r}
+bestcp <- fit_tree$cptable[which.min(fit_tree$cptable[,"xerror"]), "CP"]
+pruned_tree <- prune(fit_tree, cp = bestcp)
+visTree(pruned_tree, 
+        edgesFontSize = 14, 
+        nodesFontSize = 16, 
+        width = "100%",
+        main = "Pruned Customer Churn Prediction Tree (Optimized)",
+        submain = paste("Best CP value:", round(bestcp, 4)),      
+        colorY = c("#E1F5FE", "#01579B")) 
+```
+
+# **Random Forest**
+
+### **Splitting of data set into train vs. test data**
+
+```{r}
+set.seed(1234)
+trainIndex <- createDataPartition(df$churn_probability, 
+                                  p = 0.8,      
+                                  list = FALSE, 
+                                  times = 1)
+df_train <- df[trainIndex, ]  
+df_test  <- df[-trainIndex, ]
+```
+
+### **Hyperparameter Tuning and Training of Model**
+
+```{r}
+#| message: false
+#| warning: false
+repeatcvControl <- trainControl(
+  method = "repeatedcv",
+  number = 10,
+  repeats = 3,          
+  verboseIter = TRUE     
+)
+
+n_features <- ncol(df_train) - 1      
+my_mtry <- floor(sqrt(n_features))  
+
+rf_model <- train(
+  churn_probability ~ .,            
+  data = df_train,
+  method = "ranger", 
+  trControl = repeatcvControl, 
+  num.trees = 50,                  
+  importance = "impurity", 
+  tuneGrid = data.frame(
+    mtry = my_mtry, 
+    min.node.size = 5,
+    splitrule = "variance"
+  )
+)
+```
+
+```{r}
+#| message: false
+#| warning: false
+df_test$fit_forest <- predict(rf_model, df_test)
+test_r2 <- cor(df_test$churn_probability, df_test$fit_forest)^2
+rf_scatter <- ggplot(data = df_test, aes(x = churn_probability, y = fit_forest)) + 
+  geom_point(alpha = 0.4, color = "darkgreen") +
+  geom_abline(slope = 1, intercept = 0, color = "red", linetype = "dashed") +
+  labs(x = "Actual Churn Probability", 
+       y = "Predicted Churn Probability",
+       title = paste0("Test R-squared: ", round(test_r2, digits = 3))) + 
+  theme_minimal() +
+  theme(axis.text = element_text(size = 8),
+        axis.title = element_text(size = 10),
+        title = element_text(size = 10))
+rf_residuals <- ggplot(data = df_test, aes(x = churn_probability, 
+                                          y = (fit_forest - churn_probability))) + 
+  geom_point(col = "blue3", alpha = 0.4) +
+  labs(y = "Residuals (Error)", x = "Actual Churn Probability") + 
+  geom_hline(yintercept = 0, col = "red4", linetype = "dashed", linewidth = 0.8) + 
+  theme_minimal() +
+  theme(axis.text = element_text(size = 8),
+        axis.title = element_text(size = 10))
+
+library(patchwork)
+p <- rf_scatter + rf_residuals + 
+  plot_annotation(title = "Model Performance Analysis: Churn Probability Prediction",
+                  subtitle = "Left: Predicted vs Actual | Right: Residual Distribution",
+                  theme = theme(plot.title = element_text(size = 16, face = "bold")))
+
+p
+```
+
+```{r}
+#| message: false
+#| warning: false
+varImp(rf_model)
+```
+
+```{r}
+#| message: false
+#| warning: false
+trctrl_none <- trainControl(method = "none") 
+tree_range <- seq(10, 200, by = 10)
+rsquared_trees <- c()
+my_mtry <- floor(sqrt(ncol(df_train) - 1))
+for (i in tree_range){
+  rf_tmp <- train(
+    churn_probability ~ ., 
+    data = df_train,
+    method = "ranger", 
+    trControl = trctrl_none, 
+    num.trees = i,
+    importance = "impurity", 
+    tuneGrid = data.frame(mtry = my_mtry, min.node.size = 5, splitrule = "variance")
+  )
+  rsquared_trees <- append(rsquared_trees, rf_tmp$finalModel$r.squared)
+}
+rsquared_plot <- data.frame(tree_range, rsquared_trees)
+
+ggplot(rsquared_plot, aes(x = tree_range, y = rsquared_trees)) + 
+  geom_line(color = "#2c3e50", linewidth = 1.2) + 
+  geom_point(color = "#e74c3c", size = 3) + 
+  labs(
+    x = "Number of Trees", 
+    y = "OOB R-squared Value",
+    title = "Random Forest Hyperparameter Optimization",
+    subtitle = "Analysis of model accuracy vs. computational cost (number of trees)",
+    caption = "Data: Colombia Customer Churn Dataset"
+  ) +
+  theme_minimal() +
+  theme(plot.title = element_text(face = "bold", size = 14))
+```

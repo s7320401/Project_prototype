@@ -1,0 +1,205 @@
+---
+title: "Clustering Analysis"
+author: "SU Bo-Han"
+date: "March 13, 2026"
+date-modified: "last-modified"
+format: 
+  html:
+    theme: cosmo  
+---
+
+# **Load Packages and Data**
+
+-   We begin by initializing the analytical environment with the `tidyverse` and `poLCA` ecosystems, ensuring a robust framework for data manipulation and latent class modeling.
+
+```{r}
+#| message: false
+#| warning: false
+pacman::p_load(tidyverse, poLCA, scales, patchwork, lubridate, knitr, dplyr)
+df_raw <- read_csv("data/colombia_customers_processed.csv")
+```
+
+# **Latent Class Analysis (LCA)**
+
+-   Feature selection is focused on two dimensions: **demographic traits** (e.g., income, occupation) and **behavioral indicators** (e.g., churn probability, satisfaction) to build a holistic segmentation framework.
+
+```{r}
+#| message: false
+#| warning: false
+df_sampled <- df_raw %>%
+  dplyr::select(
+    gender, income_bracket, occupation, age_group,        
+    total_transaction_volume, churn_probability, satisfaction_score 
+  )
+```
+
+# **Data Validation & Cleaning**
+
+-   To maintain the integrity of our statistical inferences, we perform a rigorous quality check to ensure the dataset is free of missing values before proceeding to model estimation.
+
+```{r}
+# ensure no missing values
+print(sapply(df_sampled, function(x) sum(is.na(x))))
+```
+
+# **Representative Sampling**
+
+-   A random sample of 5,000 observations is extracted to achieve an optimal balance between computational efficiency and the statistical power required for representative results.
+
+```{r}
+set.seed(123) 
+df_sampled <- df_sampled %>% sample_n(5000)
+```
+
+# **Binning & Factorization**
+
+-   As LCA requires categorical inputs, continuous variables like transaction volume are discretized into ranked tiers, transforming raw metrics into meaningful behavioral levels.
+
+```{r}
+df_sampled <- df_sampled %>%
+  mutate(
+    vol_level = ntile(total_transaction_volume, 3), 
+    churn_level = ntile(churn_probability, 3),
+    sat_level = case_when(
+      satisfaction_score <= 4 ~ 1,
+      satisfaction_score <= 7 ~ 2,
+      TRUE ~ 3
+    )
+  ) %>%
+  dplyr::select(-total_transaction_volume, -churn_probability, -satisfaction_score)
+df_lca_final <- df_sampled %>%
+  mutate(across(everything(), factor)) %>%
+  mutate(across(everything(), as.integer))
+```
+
+# **Determining Optimal K - BIC Plot**
+
+-   Model selection is guided by the Bayesian Information Criterion (BIC). We iterate through multiple cluster counts to identify the "elbow" where model fit and parsimony are perfectly balanced.
+
+```{r}
+#| message: false
+#| warning: false
+f <- as.formula("cbind(gender, income_bracket, occupation, age_group, vol_level, churn_level, sat_level) ~ 1")
+
+bic_list <- c()
+for(i in 2:5){
+  res <- poLCA(f, df_lca_final, nclass=i, nrep=2, maxiter=2000, verbose=FALSE)
+  bic_list[i] <- res$bic
+}
+plot(2:5, bic_list[2:5], type="b", pch=19, col="#2E86C1", 
+     main="Model Selection: BIC Plot", xlab="Number of Clusters", ylab="BIC Score")
+```
+
+# **Final Model Execution**
+
+-   With the optimal K identified, we execute the final model to assign each customer to their most probable latent class, providing the basis for our segment profiles.
+
+```{r}
+set.seed(123)
+lca_best <- poLCA(f, df_lca_final, nclass=3, nrep=10, maxiter=5000, verbose=FALSE)
+
+df_results <- df_lca_final %>%
+  mutate(cluster = as.factor(lca_best$predclass))
+```
+
+# **Clustering Analysis Dashboard**
+
+-   This visualization translates complex model outputs into actionable insights, mapping the average behavioral signatures of each cluster to define their unique market characteristics.
+
+```{r}
+p1 <- df_results %>%
+  group_by(cluster) %>%
+  summarise(across(c(vol_level, churn_level, sat_level), mean)) %>%
+  pivot_longer(-cluster, names_to = "Variable", values_to = "Value") %>%
+  ggplot(aes(x = Variable, y = Value, color = cluster, group = cluster)) +
+  geom_line(size = 1.5, alpha = 0.8) + 
+  geom_point(size = 4) +
+  scale_y_continuous(limits = c(1, 3), breaks = 1:3, labels = c("Low", "Med", "High")) +
+  labs(title = "Cluster Behavioral Profiles", 
+       subtitle = "Line plots showing the average level of key metrics",
+       x = "Behavioral Variable", y = "Average Level") +
+  theme_minimal()
+print(p1)
+```
+
+```{r}
+lookup_table <- df_sampled %>%
+  mutate(occ_id = as.integer(as.factor(occupation))) %>%
+  dplyr::select(occupation, occ_id) %>%
+  distinct()
+
+p2_v2 <- df_results %>%
+
+  left_join(lookup_table, by = c("occupation" = "occ_id")) %>% 
+  ggplot(aes(x = cluster, fill = occupation.y)) + 
+  geom_bar(position = "fill") +
+  scale_y_continuous(labels = percent) +
+  coord_flip() +
+  labs(title = "Detailed Occupation Mix", 
+       subtitle = "Who are these people? (By real job titles)",
+       x = "Cluster", y = "Percentage Share", fill = "Job Title") +
+  theme_minimal() +
+  theme(legend.text = element_text(size = 8))
+
+print(p2_v2)
+```
+
+```{r}
+get_mode <- function(v) {
+  uniqv <- unique(v)
+  uniqv[which.max(tabulate(match(v, uniqv)))]
+}
+persona_summary <- df_results %>%
+  group_by(cluster) %>%
+  summarise(
+    Segment_Size = n(),
+    Top_Occupation = get_mode(occupation), 
+    Top_Age_Group = get_mode(age_group),
+    Top_Gender = get_mode(gender),
+    Avg_Volume_Level = round(mean(as.integer(vol_level)), 1),
+    Avg_Churn_Risk = round(mean(as.integer(churn_level)), 1),
+    Avg_Satisfaction = round(mean(as.integer(sat_level)), 1)
+  )
+
+print(persona_summary)
+```
+
+```{r}
+persona_table <- df_results %>%
+  group_by(cluster) %>%
+  summarise(
+    Size = n(),
+    Avg_Volume = round(mean(as.numeric(vol_level)), 2),
+    Avg_Churn = round(mean(as.numeric(churn_level)), 2),
+    Avg_Satisfaction = round(mean(as.numeric(sat_level)), 2)
+  ) %>%
+  mutate(Persona_Name = case_when(
+    cluster == 1 ~ "Elite Loyalists",
+    cluster == 2 ~ "At-Risk Dissatisfieds",
+    cluster == 3 ~ "Stable Casual Users"
+  )) %>%
+  dplyr::select(cluster, Persona_Name, Size, everything())
+kable(persona_table, 
+      caption = "Final Customer Segmentation Summary (LCA Model)",
+      align = "l")
+```
+
+-   **Cluster 1: Elite Loyalists** (Size: 1,344)
+
+    -   **Profile:** High-skilled professionals (**Engineers, Doctors, Lawyers**).
+
+    -   **Insight:** Despite being high-value, they have the **lowest satisfaction (1.16)**. They are "silent sufferers" who stay out of necessity but are unhappy with the service.
+
+<!-- -->
+
+-   **Cluster 2: At-Risk Dissatisfieds** (Size: 1,382)
+
+    -   **Profile:** Service sector workers (**Sales, Waiters, Mechanics**).
+
+    -   **Insight:** The most critical group with the **highest churn risk (2.86/3.0)** and low satisfaction. They are actively looking to leave the bank.
+
+-   **Cluster 3: Stable Casual Users** (Size: 2,274)
+
+    -   **Profile:** Stable middle-class roles (**Teachers, Accountants, Architects**).
+
+    -   **Insight:** The most reliable segment. They exhibit the **lowest churn risk (1.45)** and the highest relative satisfaction, serving as the bank's stable revenue base.
