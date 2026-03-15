@@ -9,7 +9,7 @@ website:
     background: "#1a1a1a" 
     contents:
       - href: index.qmd
-        text: Story Broad
+        text: Proposal 
       - section: "Minutes of Meeting" 
         contents:
           - href: "Minutes_of_Meeting/Minutes_of_Meeting_1.qmd"

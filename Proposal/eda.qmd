@@ -1,14 +1,19 @@
 ---
 title: "Exploratory Data Analysis"
 author: "YU DONGHUI"
-date: "March 13, 2026"
-date-modified: "last-modified"
-format: 
+format:
   html:
-    theme: cosmo  
+    toc: true
+execute:
+  echo: true
+  warning: false
+  message: false
 ---
 
 ## **1. Installing and launching required R packages**
+
+Before performing the analysis, the required R packages are loaded.\
+These packages support data manipulation (tidyverse), statistical visualization (ggplot2, ggstatsplot), interactive graphics (plotly), scaling functions (scales), and correlation visualization (corrplot).
 
 ```{r}
 pacman::p_load(tidyverse, ggstatsplot,ggplot2, plotly, scales,corrplot)
@@ -23,6 +28,12 @@ data_cleaned <- read_csv("data/colombia_customers_processed.csv")
 ```
 
 ## **3. Distribution of Key Variables**
+
+To understand the overall characteristics of the dataset, we first examine the distribution of key behavioral and engagement variables.
+
+Some highly skewed variables, such as transaction volume and transaction counts, are log-transformed using log1p() to reduce skewness and improve visualization clarity.
+
+The variables are then reshaped into long format using pivot_longer() so that multiple histograms can be displayed simultaneously using facet_wrap().
 
 ```{r}
 data_cleaned %>%
@@ -49,7 +60,14 @@ data_cleaned %>%
   theme_minimal()
 ```
 
+These histograms provide an overview of how key indicators are distributed across the dataset and help identify potential skewness, outliers, and variability among customers.
+
 ## **4. Correlation Analysis of Churn-Related Variables**
+
+To examine the relationships between churn probability and customer behavior indicators, a correlation analysis is performed.
+
+Only numerical variables that are relevant to customer engagement, transaction activity, and satisfaction are selected for the analysis.\
+Spearman correlation is used because it is more robust to non-normal distributions and outliers compared with Pearson correlation.
 
 ```{r}
 corr_df <- data_cleaned %>%
@@ -82,7 +100,13 @@ corrplot(
 )
 ```
 
+The resulting correlation matrix provides a visual overview of the strength and direction of relationships between variables, helping to identify factors that may be associated with higher churn probability.
+
 ## **5. Supplementary Check: CLV Segment Profiling**
+
+Customers are grouped according to their CLV (Customer Lifetime Value) segment to explore whether customer value tiers exhibit different behavioral patterns.
+
+The summary statistics below calculate the average values of key engagement indicators within each CLV segment.
 
 ```{r}
 profile_summary <- data_cleaned %>%
@@ -106,10 +130,16 @@ profile_summary %>%
   theme_minimal()
 ```
 
+The bar charts provide a comparative view of behavioral metrics across CLV segments, allowing analysts to observe how engagement, transaction activity, and churn probability differ between customer groups.
+
 ## **6. Churn Risk Analysis**
 
-```{r}
+Next, we investigate how customer sentiment indicators relate to churn probability.
 
+A scatter plot is constructed to examine the relationship between Net Promoter Score (NPS) and churn probability.\
+A LOESS smoothing curve is added to highlight the overall trend between these variables.
+
+```{r}
 #| message: false
 #| warning: false
 #| fig-width: 12
@@ -127,10 +157,14 @@ p_nps <- ggplot(data_cleaned, aes(x = nps_score, y = churn_probability)) +
 
 p_nps
 
+
 ```
 
-```{r}
+To further analyze customer sentiment effects, churn probability is compared across different satisfaction score levels.
 
+A boxplot is used to visualize the distribution of churn probability for each satisfaction category.
+
+```{r}
 #| message: false
 #| warning: false
 #| fig-width: 12
@@ -156,10 +190,14 @@ p_satisfaction_box
 
 ```
 
+The boxplot allows us to compare the variability and central tendency of churn probability across satisfaction levels.
+
 ## **7. Churn Probability by Number of Support Tickets**
 
-```{r}
+Customer support interactions may reflect service issues or dissatisfaction.\
+To examine this relationship, the average churn probability is calculated for each level of support ticket count.
 
+```{r}
 #| message: false
 #| warning: false
 #| fig-width: 8
@@ -185,7 +223,12 @@ ggplot(support_summary, aes(x = support_tickets_count, y = avg_churn)) +
 
 ```
 
+The line chart shows how churn risk changes as the number of support tickets increases, potentially indicating whether frequent support interactions are associated with higher churn probability.
+
 ## **8. Customer Tenure vs Churn**
+
+Customer tenure is another important indicator of engagement.\
+This visualization explores the relationship between the length of time a customer has been with the company and their churn probability.
 
 ```{r}
 
@@ -207,7 +250,12 @@ ggplot(
 
 ```
 
+The smoothing curve highlights the overall trend between customer tenure and churn probability across the dataset.
+
 ## **9. Active Products vs Churn**
+
+Product adoption is often associated with customer loyalty.\
+This analysis examines how the number of active products held by a customer relates to churn probability.
 
 ```{r}
 #| message: false
@@ -231,3 +279,5 @@ ggplot(
   ) +
   theme_minimal()
 ```
+
+The boxplot illustrates whether customers who hold more products tend to exhibit lower churn risk compared with customers with fewer active products.

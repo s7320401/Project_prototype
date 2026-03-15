@@ -10,13 +10,26 @@ format:
 
 # **Load Packages and Data**
 
+Check and load packages, ensuring they are sourced from and supported by CRAN.
+
 ```{r}
 pacman::p_load(tidyverse, rpart, rpart.plot, sparkline, visNetwork, 
                caret, ranger, patchwork, randomForest)
-
 df <- read.csv("data/colombia_customers_processed.csv") %>%
-  select(-customer_id, -first_tx, -last_tx, -last_survey_date, 
-         -last_transaction_date, -first_transaction_date, -age_group)
+  select(
+    churn_probability,      
+    age,                    
+    location, 
+    income_bracket,
+    active_products,        
+    tx_count,                
+    customer_tenure,         
+    failed_transactions,     
+    credit_utilization_ratio,
+    satisfaction_score,      
+    complaint_topics        
+  ) %>%
+  mutate(across(where(is.character), as.factor))
 ```
 
 # **Regression Tree**
@@ -78,6 +91,8 @@ df_test  <- df[-trainIndex, ]
 ```{r}
 #| message: false
 #| warning: false
+#| echo: true
+#| output: false
 repeatcvControl <- trainControl(
   method = "repeatedcv",
   number = 10,

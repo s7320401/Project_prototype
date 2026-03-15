@@ -1,4 +1,5 @@
 /* css styles */
+/* --- 1. 字體與基礎設定 --- */
 body {
     font-family: "Avenir Next", "Avenir", "Montserrat", sans-serif;
 }
@@ -8,6 +9,7 @@ h1, h2, h3, h4, .title {
     font-weight: 700;
 }
 
+/* --- 2. 側邊欄樣式 (保持深色質感) --- */
 #quarto-sidebar {
     width: 280px !important; 
     background-color: #1a1a1a !important;
@@ -29,18 +31,29 @@ h1, h2, h3, h4, .title {
     color: #ffffff !important;
 }
 
-
-
+/* --- 3. 主內容區域 (修正「縮在中間」與「空一大塊」的問題) --- */
 main.content {
-    max-width: 850px !important; 
-    margin-left: auto !important;
+    /* 將最大寬度從 850px 提升到 1100px，適合閱讀也適合放圖表 */
+    max-width: 1100px !important; 
+    
+    /* 讓內容靠近左邊側邊欄，不再強制水平置中 */
+    margin-left: 2em !important;
     margin-right: auto !important;
+    
     padding: 2em;
+    
+    /* 確保內容太少時，不會強制撐開奇怪的垂直高度 */
+    min-height: auto !important; 
 }
-
-
 #TOC {
     font-family: "Avenir Next", "Avenir", sans-serif;
     font-size: 0.85rem;
     padding-top: 20px;
+}
+@media (max-width: 992px) {
+    main.content {
+        margin-left: auto !important;
+        margin-right: auto !important;
+        max-width: 95% !important;
+    }
 }

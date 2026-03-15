@@ -1,13 +1,14 @@
 ---
-title: "Story Broad"
+title: "Proposal"
 author:
   - "DODDAPANENI Virinchi"
   - "SU Bo-Han"
   - "YU Dong Hui"
+date: "March 13, 2026"
+date-modified: "last-modified"
 format: 
   html:
     theme: cosmo  
-    toc: false    
 ---
 
 Hello
