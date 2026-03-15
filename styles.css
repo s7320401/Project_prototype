@@ -1,28 +1,70 @@
 /* css styles */
-/* --- 1. 字體與基礎設定 --- */
-body {
-    font-family: "Avenir Next", "Avenir", "Montserrat", sans-serif;
+body, section, p, li, .sidebar-item-text, .nav-link {
+    font-family: "Montserrat", sans-serif !important;
 }
 
-h1, h2, h3, h4, .title {
-    font-family: "Avenir Next", "Avenir", sans-serif;
-    font-weight: 700;
+h1, h2, h3, h4, .title, .sidebar-title a, .quarto-sidebar-section-title {
+    font-family: "Fraunces", serif !important;
+    font-weight: 700 !important;
 }
 
-/* --- 2. 側邊欄樣式 (保持深色質感) --- */
+#quarto-sidebar .quarto-sidebar-header,
+header.quarto-sidebar-header {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    padding-left: 0 !important; 
+    padding-right: 0 !important;
+    padding-top: 40px !important;
+    padding-bottom: 20px !important;
+    
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+.sidebar-logo,
+.quarto-sidebar-header img {
+    height: 65px !important;
+    width: auto !important;
+    display: block !important;
+    margin: 0 auto 15px auto !important; 
+    filter: invert(1) !important;
+    mix-blend-mode: screen !important;
+}
+
+.sidebar-title {
+    text-align: center !important;
+    margin: 0 !important;
+    padding: 0 10px !important;
+    width: 100% !important;
+    display: block !important;
+}
+
+.sidebar-title a {
+    display: block !important;
+    text-align: center !important;
+    color: #ffffff !important;
+    font-size: 1.15rem !important;
+    line-height: 1.3 !important;
+    text-decoration: none !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+#quarto-search {
+    margin: 10px auto !important;
+    width: 85% !important;
+}
+
 #quarto-sidebar {
     width: 280px !important; 
     background-color: #1a1a1a !important;
 }
 
-.sidebar-title a {
-    color: #ffffff !important;
-    font-size: 1.4rem !important; 
-    font-family: 'Playfair Display', serif !important;
-    font-weight: 700 !important;
-    white-space: normal !important; 
-    display: block;
-    line-height: 1.2;
+.sidebar-navigation {
+    padding-left: 10px !important;
 }
 
 .sidebar-item-text, 
@@ -31,29 +73,12 @@ h1, h2, h3, h4, .title {
     color: #ffffff !important;
 }
 
-/* --- 3. 主內容區域 (修正「縮在中間」與「空一大塊」的問題) --- */
 main.content {
-    /* 將最大寬度從 850px 提升到 1100px，適合閱讀也適合放圖表 */
     max-width: 1100px !important; 
-    
-    /* 讓內容靠近左邊側邊欄，不再強制水平置中 */
     margin-left: 2em !important;
-    margin-right: auto !important;
-    
     padding: 2em;
-    
-    /* 確保內容太少時，不會強制撐開奇怪的垂直高度 */
-    min-height: auto !important; 
 }
-#TOC {
-    font-family: "Avenir Next", "Avenir", sans-serif;
-    font-size: 0.85rem;
-    padding-top: 20px;
-}
-@media (max-width: 992px) {
-    main.content {
-        margin-left: auto !important;
-        margin-right: auto !important;
-        max-width: 95% !important;
-    }
+
+a {
+    color: #8D6E63; 
 }

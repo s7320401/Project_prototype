@@ -2,8 +2,9 @@ project:
   type: website
 
 website:
-  title: "Project_prototype"
   sidebar:
+    title: "Bean Counting 2.0: Sifting Loyal Beans from At-Risk Grinds"
+    logo: coffeebean.png
     style: "docked"
     search: true
     background: "#1a1a1a" 
@@ -37,8 +38,6 @@ format:
     header-includes: |
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-      <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;1,9..144,700&family=Montserrat:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     css: styles.css
     toc: true
-
-editor: visual
