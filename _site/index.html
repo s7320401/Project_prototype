@@ -211,8 +211,9 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology">Methodology</a>
   <ul class="collapse">
   <li><a href="#i.-exploratory-data-analysis" id="toc-i.-exploratory-data-analysis" class="nav-link" data-scroll-target="#i.-exploratory-data-analysis">I. Exploratory Data Analysis&nbsp;</a></li>
-  <li><a href="#ii.-clustering-analysis" id="toc-ii.-clustering-analysis" class="nav-link" data-scroll-target="#ii.-clustering-analysis">II. Clustering Analysis</a></li>
-  <li><a href="#iii.-decision-tree-analysis" id="toc-iii.-decision-tree-analysis" class="nav-link" data-scroll-target="#iii.-decision-tree-analysis">III. Decision Tree Analysis</a></li>
+  <li><a href="#ii.-confirmatory-data-analysis-cda" id="toc-ii.-confirmatory-data-analysis-cda" class="nav-link" data-scroll-target="#ii.-confirmatory-data-analysis-cda"><strong>II. Confirmatory Data Analysis (CDA)</strong>&nbsp;</a></li>
+  <li><a href="#iii.-clustering-analysis" id="toc-iii.-clustering-analysis" class="nav-link" data-scroll-target="#iii.-clustering-analysis">III. Clustering Analysis</a></li>
+  <li><a href="#iv.-decision-tree-analysis" id="toc-iv.-decision-tree-analysis" class="nav-link" data-scroll-target="#iv.-decision-tree-analysis">IV. Decision Tree Analysis</a></li>
   </ul></li>
   <li><a href="#gantt-chart" id="toc-gantt-chart" class="nav-link" data-scroll-target="#gantt-chart">GANTT CHART</a></li>
   </ul>
@@ -249,7 +250,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">March 15, 2026</p>
+      <p class="date-modified">March 16, 2026</p>
     </div>
   </div>
     
@@ -346,15 +347,22 @@ ul.task-list li input[type="checkbox"] {
 <li><p><strong>Benefit</strong>: This allows management to quickly isolate anomalous behavior patterns in specific regions (e.g., Bogotá) or among users of specific products, establishing a foundation for deeper analysis.</p></li>
 </ul>
 </section>
-<section id="ii.-clustering-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="ii.-clustering-analysis">II. Clustering Analysis</h2>
+<section id="ii.-confirmatory-data-analysis-cda" class="level2">
+<h2 class="anchored" data-anchor-id="ii.-confirmatory-data-analysis-cda"><strong>II. Confirmatory Data Analysis (CDA)</strong>&nbsp;</h2>
+<ul>
+<li><p><strong>Rationale:</strong>&nbsp;We apply inferential statistical tests (ANOVA, Chi-square, and Pearson Correlation) to validate whether the patterns observed in EDA are statistically significant or merely due to random chance.</p></li>
+<li><p><strong>Benefit:</strong>&nbsp;Provides a rigorous scientific basis for selecting features for downstream modeling, ensuring that the business strategies are built on statistically sound relationships (e.g., confirming if income truly impacts churn).</p></li>
+</ul>
+</section>
+<section id="iii.-clustering-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="iii.-clustering-analysis">III. Clustering Analysis</h2>
 <ul>
 <li><p><strong>Rationale</strong>: We apply the&nbsp;<strong>K-means algorithm</strong>&nbsp;to scientifically categorize customers based on similar transactional behaviors, such as volume and frequency, ensuring high interpretability for business users without requiring complex dimensionality reduction.</p></li>
 <li><p><strong>Benefit</strong>: Enables the bank to implement differentiated marketing strategies—such as offering exclusive perks to high-value segments or promoting value-added products to active newcomers—thereby optimizing resource allocation.</p></li>
 </ul>
 </section>
-<section id="iii.-decision-tree-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="iii.-decision-tree-analysis">III. Decision Tree Analysis</h2>
+<section id="iv.-decision-tree-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="iv.-decision-tree-analysis">IV. Decision Tree Analysis</h2>
 <ul>
 <li><p><strong>Rationale</strong>: We build a classification model targeting&nbsp;<strong><code>churn_probability</code></strong>&nbsp;to identify the most critical drivers of attrition and their specific numerical thresholds.</p></li>
 <li><p><strong>Benefit</strong>: This produces actionable “decision rules” (e.g., “If app logins drop below X, churn risk increases by Y%”), allowing operational teams to initiate immediate intervention based on clear early-warning indicators.</p></li>

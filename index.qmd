@@ -62,13 +62,19 @@ Our analytical approach focuses on three core modules designed to address the bu
 
 -   **Benefit**: This allows management to quickly isolate anomalous behavior patterns in specific regions (e.g., Bogotá) or among users of specific products, establishing a foundation for deeper analysis.
 
-## II. Clustering Analysis
+## **II. Confirmatory Data Analysis (CDA)** 
+
+-   **Rationale:** We apply inferential statistical tests (ANOVA, Chi-square, and Pearson Correlation) to validate whether the patterns observed in EDA are statistically significant or merely due to random chance.
+
+-   **Benefit:** Provides a rigorous scientific basis for selecting features for downstream modeling, ensuring that the business strategies are built on statistically sound relationships (e.g., confirming if income truly impacts churn).
+
+## III. Clustering Analysis
 
 -   **Rationale**: We apply the **K-means algorithm** to scientifically categorize customers based on similar transactional behaviors, such as volume and frequency, ensuring high interpretability for business users without requiring complex dimensionality reduction.
 
 -   **Benefit**: Enables the bank to implement differentiated marketing strategies—such as offering exclusive perks to high-value segments or promoting value-added products to active newcomers—thereby optimizing resource allocation.
 
-## III. Decision Tree Analysis
+## IV. Decision Tree Analysis
 
 -   **Rationale**: We build a classification model targeting **`churn_probability`** to identify the most critical drivers of attrition and their specific numerical thresholds.
 
