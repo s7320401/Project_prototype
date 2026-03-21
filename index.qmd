@@ -42,7 +42,7 @@ In the fiercely competitive Colombian financial landscape, traditional static re
 # R Package
 
 |  |  |  |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | **Category** | **R Packages** | **Specific Application** |
 | **Data Wrangling & Core** | `tidyverse`, `lubridate` | Cleaning Colombian customer records and utilizing `lubridate` to process `first_tx` and `last_tx` for calculating **Customer Tenure**. |
 | **Interactive EDA** | `plotly`, `ExPanDaR`, `scales` | Creating dynamic distributions for `income_bracket` and `churn_probability`; implementing automated exploratory data analysis and data scaling. |

@@ -9,7 +9,7 @@
 <meta name="author" content="SU Bo-Han">
 <meta name="dcterms.date" content="2026-03-13">
 
-<title>Clustering Analysis</title>
+<title>Takehome Exercise 2 Clustering Analysis</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -109,6 +109,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;1,9..144,700&amp;family=Montserrat:ital,wght@0,400;0,600;1,400&amp;display=swap" rel="stylesheet">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -180,7 +209,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Minutes_of_Meeting/Minutes_of_Meeting_3.qmd" class="sidebar-item-text sidebar-link">
+  <a href="../Minutes_of_Meeting/Minutes_of_Meeting_3.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Minutes of Meeting 3</span></a>
   </div>
 </li>
@@ -245,6 +274,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#elbow-plot" id="toc-elbow-plot" class="nav-link" data-scroll-target="#elbow-plot"><strong>Elbow Plot</strong></a></li>
   <li><a href="#model-selection" id="toc-model-selection" class="nav-link" data-scroll-target="#model-selection"><strong>Model Selection</strong></a></li>
   <li><a href="#clustering-analysis-dashboard" id="toc-clustering-analysis-dashboard" class="nav-link" data-scroll-target="#clustering-analysis-dashboard"><strong>Clustering Analysis Dashboard</strong></a></li>
+  <li><a href="#mapping-r-parameters-to-shiny-ui-components" id="toc-mapping-r-parameters-to-shiny-ui-components" class="nav-link" data-scroll-target="#mapping-r-parameters-to-shiny-ui-components">Mapping R Parameters to Shiny UI Components</a>
+  <ul class="collapse">
+  <li><a href="#mapping-table" id="toc-mapping-table" class="nav-link" data-scroll-target="#mapping-table">Mapping Table</a></li>
+  <li><a href="#user-input-parameters-inputs" id="toc-user-input-parameters-inputs" class="nav-link" data-scroll-target="#user-input-parameters-inputs">User Input Parameters (Inputs)</a></li>
+  <li><a href="#visual-data-outputs-outputs" id="toc-visual-data-outputs-outputs" class="nav-link" data-scroll-target="#visual-data-outputs-outputs">Visual &amp; Data Outputs (Outputs)</a></li>
+  <li><a href="#user-interface-ui-selection-rationale-table" id="toc-user-interface-ui-selection-rationale-table" class="nav-link" data-scroll-target="#user-interface-ui-selection-rationale-table">User Interface (UI) Selection Rationale Table</a></li>
+  </ul></li>
+  <li><a href="#ui-design-storyboard" id="toc-ui-design-storyboard" class="nav-link" data-scroll-target="#ui-design-storyboard">UI Design (Storyboard)</a>
+  <ul class="collapse">
+  <li><a href="#the-control-center-sidebar" id="toc-the-control-center-sidebar" class="nav-link" data-scroll-target="#the-control-center-sidebar">The Control Center (Sidebar)</a></li>
+  <li><a href="#executive-summary-top-tier" id="toc-executive-summary-top-tier" class="nav-link" data-scroll-target="#executive-summary-top-tier"><strong>Executive Summary (Top Tier)</strong></a></li>
+  <li><a href="#analytical-deep-dive-middle-bottom-tier" id="toc-analytical-deep-dive-middle-bottom-tier" class="nav-link" data-scroll-target="#analytical-deep-dive-middle-bottom-tier"><strong>Analytical Deep-Dive (Middle &amp; Bottom Tier)</strong></a></li>
+  </ul></li>
+  <li><a href="#selection-of-visualisation-techniques-design-principles" id="toc-selection-of-visualisation-techniques-design-principles" class="nav-link" data-scroll-target="#selection-of-visualisation-techniques-design-principles">Selection of Visualisation Techniques &amp; Design Principles</a>
+  <ul class="collapse">
+  <li><a href="#model-diagnosis-elbow-plot" id="toc-model-diagnosis-elbow-plot" class="nav-link" data-scroll-target="#model-diagnosis-elbow-plot"><strong>1. Model Diagnosis (Elbow Plot)</strong></a></li>
+  <li><a href="#behavioral-map-scatter-plot" id="toc-behavioral-map-scatter-plot" class="nav-link" data-scroll-target="#behavioral-map-scatter-plot"><strong>2. Behavioral Map (Scatter Plot)</strong></a></li>
+  <li><a href="#retention-quadrant-value-vs.-risk" id="toc-retention-quadrant-value-vs.-risk" class="nav-link" data-scroll-target="#retention-quadrant-value-vs.-risk"><strong>3. Retention Quadrant (Value vs.&nbsp;Risk)</strong></a></li>
+  <li><a href="#occupation-mix-stacked-bar-chart" id="toc-occupation-mix-stacked-bar-chart" class="nav-link" data-scroll-target="#occupation-mix-stacked-bar-chart"><strong>4. Occupation Mix (Stacked Bar Chart)</strong></a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -253,7 +302,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Proposal/Data_Preparation.html">Data Analysis</a></li><li class="breadcrumb-item"><a href="../Proposal/Clustering_Analysis.html">Clustering Analysis</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Clustering Analysis</h1>
+<h1 class="title">Takehome Exercise 2 Clustering Analysis</h1>
 </div>
 
 
@@ -277,7 +326,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">March 15, 2026</p>
+      <p class="date-modified">March 22, 2026</p>
     </div>
   </div>
     
@@ -539,8 +588,277 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><strong>Segment 2 | Premier High-Earners (</strong>n=1,583):&nbsp;This elite group, dominated by&nbsp;<strong>Accountants and Real Estate Agents</strong>, yields the highest average transaction volume (~59.7M). They are the prime targets for premium loyalty programs and high-tier financial products.</p></li>
 <li><p><strong>Segment 3 | Emerging Budget Segment (</strong>n=1,141):&nbsp;Consisting of&nbsp;<strong>Salespeople, Farmers, and Designers</strong>, this group exhibits lower transaction volumes (~14.6M). These customers may benefit from growth-oriented micro-services or entry-level financial tools.</p></li>
 </ul>
+</section>
+<section id="mapping-r-parameters-to-shiny-ui-components" class="level1">
+<h1>Mapping R Parameters to Shiny UI Components</h1>
+<section id="mapping-table" class="level2">
+<h2 class="anchored" data-anchor-id="mapping-table">Mapping Table</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><strong>Module</strong></td>
+<td><strong>Parameter</strong></td>
+<td><strong>Shiny UI Input</strong></td>
+<td><strong>Description</strong></td>
+</tr>
+<tr class="even">
+<td><strong>Data Control</strong></td>
+<td><code>sample_size</code></td>
+<td><code>selectInput()</code></td>
+<td>Allows users to choose data subsets (5k, 10k, 20k) to optimize server performance vs.&nbsp;analysis depth.</td>
+</tr>
+<tr class="odd">
+<td><strong>Data Control</strong></td>
+<td><code>run_analysis</code></td>
+<td><code>actionButton()</code></td>
+<td>Employs&nbsp;<strong>event-driven reactivity</strong>&nbsp;to trigger heavy K-means calculations only when requested, saving computational resources.</td>
+</tr>
+<tr class="even">
+<td><strong>K-means Model</strong></td>
+<td><code>k_val</code></td>
+<td><code>sliderInput()</code></td>
+<td>Dynamically adjusts the number of clusters (<span class="math inline">\(k\)</span>) to explore different levels of customer segmentation granularity.</td>
+</tr>
+<tr class="odd">
+<td><strong>Strategic Logic</strong></td>
+<td><code>w_vol</code></td>
+<td><code>sliderInput()</code></td>
+<td>Adjusts the weight of&nbsp;<strong>Transaction Volume</strong>&nbsp;in the priority algorithm to focus on revenue-heavy segments.</td>
+</tr>
+<tr class="even">
+<td><strong>Strategic Logic</strong></td>
+<td><code>w_risk</code></td>
+<td><code>sliderInput()</code></td>
+<td>Adjusts the weight of&nbsp;<strong>Churn Probability</strong>&nbsp;to prioritize defensive strategies for at-risk segments.</td>
+</tr>
+<tr class="odd">
+<td><strong>Visual Analytics</strong></td>
+<td><code>cluster_scatter</code></td>
+<td><code>plotlyOutput()</code></td>
+<td>Visualizes behavioral distances using&nbsp;<strong>log-transformed</strong>&nbsp;axes to handle skewed transaction distributions.</td>
+</tr>
+<tr class="even">
+<td><strong>Strategic Output</strong></td>
+<td><code>priority_boxes</code></td>
+<td><code>uiOutput()</code></td>
+<td>Renders dynamic Rank Cards (Gold, Silver, Bronze) based on a weighted scoring of Volume, Satisfaction, and Risk.</td>
+</tr>
+<tr class="odd">
+<td><strong>Strategic Output</strong></td>
+<td><code>persona_table</code></td>
+<td><code>DTOutput()</code></td>
+<td>Provides a high-level summary of cluster personas, including the “Top 3 Occupations” and average churn metrics.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="user-input-parameters-inputs" class="level2">
+<h2 class="anchored" data-anchor-id="user-input-parameters-inputs">User Input Parameters (Inputs)</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><strong>Parameter Name</strong></td>
+<td><strong>UI Input ID</strong></td>
+<td><strong>Description</strong></td>
+</tr>
+<tr class="even">
+<td><strong>Data Sample Size</strong></td>
+<td><code>sample_size</code></td>
+<td>Allows users to choose between 5k, 10k, or 20k records to balance performance and granularity.</td>
+</tr>
+<tr class="odd">
+<td><strong>Number of Clusters (</strong><span class="math inline">\(k\)</span>)</td>
+<td><code>k_val</code></td>
+<td>A slider to dynamically adjust the K-means&nbsp;<span class="math inline">\(k\)</span>&nbsp;parameter (Range: 2–8).</td>
+</tr>
+<tr class="even">
+<td><strong>Strategic Weights</strong></td>
+<td><code>w_vol</code>,&nbsp;<code>w_risk</code></td>
+<td>Sliders (0–1) that allow users to prioritize transaction volume vs.&nbsp;churn risk in the ranking logic.</td>
+</tr>
+<tr class="odd">
+<td><strong>Execution Trigger</strong></td>
+<td><code>run_analysis</code></td>
+<td>An action button that prevents unnecessary re-calculations until the user is ready.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="visual-data-outputs-outputs" class="level2">
+<h2 class="anchored" data-anchor-id="visual-data-outputs-outputs">Visual &amp; Data Outputs (Outputs)</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><strong>Output Name</strong></td>
+<td><strong>UI Output ID</strong></td>
+<td><strong>Description</strong></td>
+</tr>
+<tr class="even">
+<td><strong>Priority InfoBoxes</strong></td>
+<td><code>priority_boxes</code></td>
+<td>Top 3 ranked occupations based on the weighted strategic score (Gold, Silver, Bronze).</td>
+</tr>
+<tr class="odd">
+<td><strong>Strategy Card</strong></td>
+<td><code>active_strategy_card</code></td>
+<td>A dynamic UI element that identifies the “Strategy Mode” (e.g., Premium, Defensive).</td>
+</tr>
+<tr class="even">
+<td><strong>Elbow Plot</strong></td>
+<td><code>elbow_plot</code></td>
+<td>A static ggplot diagnostic tool to help users identify the optimal&nbsp;<span class="math inline">\(k\)</span>.</td>
+</tr>
+<tr class="odd">
+<td><strong>Behavioral Map</strong></td>
+<td><code>cluster_scatter</code></td>
+<td>An interactive Plotly scatter plot showing the clusters in log-scale.</td>
+</tr>
+<tr class="even">
+<td><strong>Retention Quadrant</strong></td>
+<td><code>quadrant_plot</code></td>
+<td>A Plotly bubble chart mapping churn risk against transaction volume.</td>
+</tr>
+<tr class="odd">
+<td><strong>Segment Summary</strong></td>
+<td><code>persona_table</code></td>
+<td>A DT table summarizing the Top 3 occupations and key metrics per cluster.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="user-interface-ui-selection-rationale-table" class="level2">
+<h2 class="anchored" data-anchor-id="user-interface-ui-selection-rationale-table">User Interface (UI) Selection Rationale Table</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><strong>Parameter</strong></td>
+<td><strong>UI Component</strong></td>
+<td><strong>Rationale</strong></td>
+</tr>
+<tr class="even">
+<td><strong>Data Sample Size</strong></td>
+<td><code>selectInput()</code></td>
+<td>Ideal for providing a discrete list of optimized choices (5k, 10k, 20k). This prevents users from entering arbitrary large numbers that could crash the Shiny server.</td>
+</tr>
+<tr class="odd">
+<td><strong>Clusters (</strong><span class="math inline">\(k\)</span>)</td>
+<td><code>sliderInput()</code></td>
+<td>Enables intuitive exploration of model granularity. The sliding mechanism allows users to “feel” the transition between different cluster counts while observing the Elbow Plot.</td>
+</tr>
+<tr class="even">
+<td><strong>Strategic Weights</strong></td>
+<td><code>sliderInput()</code></td>
+<td>Uses a step of 0.1 to allow precise “tuning” of the business strategy. This provides a tactile way for managers to balance the trade-off between Volume and Risk.</td>
+</tr>
+<tr class="odd">
+<td><strong>Execute Analysis</strong></td>
+<td><code>actionButton()</code></td>
+<td><strong>Critical for Event Reactivity.</strong>&nbsp;Since K-means and scoring calculations are computationally expensive, this ensures the app only updates once all parameters are finalized.</td>
+</tr>
+<tr class="even">
+<td><strong>Strategic Rankings</strong></td>
+<td><code>infoBox()</code></td>
+<td>Leveraging&nbsp;<strong>Visual Hierarchy</strong>, these boxes use semantic colors (Gold, Silver, Bronze) and icons to provide immediate, high-level insights for decision-makers.</td>
+</tr>
+<tr class="odd">
+<td><strong>Behavioral Maps</strong></td>
+<td><code>plotlyOutput()</code></td>
+<td>Unlike static plots, Plotly allows for&nbsp;<strong>Hover Interactivity</strong>, enabling users to identify specific “Occupations” behind the data points for better persona validation.</td>
+</tr>
+<tr class="even">
+<td><strong>Persona Summary</strong></td>
+<td><code>DTOutput()</code></td>
+<td>Chosen for its built-in search and pagination. It allows users to drill down into cluster-specific metrics without overwhelming the dashboard’s visual real-time space.</td>
+</tr>
+<tr class="odd">
+<td><strong>Navigation</strong></td>
+<td><code>dashboardSidebar()</code></td>
+<td>Provides a&nbsp;<strong>Separation of Concerns</strong>&nbsp;by isolating control settings and high-level navigation from the main analytical workspace, reducing cognitive load.</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="ui-design-storyboard" class="level1">
+<h1>UI Design (Storyboard)</h1>
+<p>The storyboard outlines the user journey and the spatial organization of the “Clustering Analysis Dashboard.”</p>
+<section id="the-control-center-sidebar" class="level2">
+<h2 class="anchored" data-anchor-id="the-control-center-sidebar">The Control Center (Sidebar)</h2>
+<ul>
+<li><p><strong>Parameter Tuning:</strong>&nbsp;The sidebar serves as the primary navigation and configuration hub, where users define the scope of analysis via sample size and cluster counts.</p></li>
+<li><p><strong>Strategic Weighting:</strong>&nbsp;Users can interactively shift the dashboard’s focus between revenue (Volume) and stability (Risk) using intuitive sliders, allowing for real-time strategy simulation.</p></li>
+</ul>
+</section>
+<section id="executive-summary-top-tier" class="level2">
+<h2 class="anchored" data-anchor-id="executive-summary-top-tier"><strong>Executive Summary (Top Tier)</strong></h2>
+<ul>
+<li><p><strong>Priority Ranking:</strong>&nbsp;At the top of the page, high-impact segments are immediately highlighted using Gold, Silver, and Bronze Rank cards to guide rapid decision-making.</p></li>
+<li><p><strong>Strategic Guidance:</strong>&nbsp;The central recommendation panel translates complex cluster metrics into plain-English managerial actions based on the active strategy mode.</p></li>
+</ul>
+</section>
+<section id="analytical-deep-dive-middle-bottom-tier" class="level2">
+<h2 class="anchored" data-anchor-id="analytical-deep-dive-middle-bottom-tier"><strong>Analytical Deep-Dive (Middle &amp; Bottom Tier)</strong></h2>
+<ul>
+<li><p><strong>Diagnostic &amp; Distribution:</strong>&nbsp;The middle tier provides the technical foundation, showing the mathematical validity of the clusters and their distribution in the behavioral space.</p></li>
+<li><p><strong>Composition &amp; Persona:</strong>&nbsp;The final tier decomposes clusters by occupation and displays a detailed summary table to provide the “human” context behind the numbers.</p></li>
+</ul>
+<p><img src="images/clipboard-1063434652.png" class="img-fluid"></p>
+</section>
+</section>
+<section id="selection-of-visualisation-techniques-design-principles" class="level1">
+<h1>Selection of Visualisation Techniques &amp; Design Principles</h1>
+<p>This section outlines the strategic choice of visual elements and the underlying design principles applied to ensure the dashboard provides actionable insights for business stakeholders.</p>
+<section id="model-diagnosis-elbow-plot" class="level2">
+<h2 class="anchored" data-anchor-id="model-diagnosis-elbow-plot"><strong>1. Model Diagnosis (Elbow Plot)</strong></h2>
+<ul>
+<li><p><strong>Technique:</strong>&nbsp;Line Chart with point markers.</p></li>
+<li><p><strong>Purpose:</strong>&nbsp;To assist users in mathematically determining the optimal number of clusters (k) by identifying the “elbow point” where the Total Within-cluster Sum of Squares (WSS) stabilizes.</p></li>
+</ul>
+</section>
+<section id="behavioral-map-scatter-plot" class="level2">
+<h2 class="anchored" data-anchor-id="behavioral-map-scatter-plot"><strong>2. Behavioral Map (Scatter Plot)</strong></h2>
+<ul>
+<li><p><strong>Technique:</strong>&nbsp;Interactive Scatter Plot with Log-Log scaling.</p></li>
+<li><p><strong>Purpose:</strong>&nbsp;To visualize the behavioral distance between clusters while handling the extreme skewness of transaction data through log transformation.</p></li>
+</ul>
+</section>
+<section id="retention-quadrant-value-vs.-risk" class="level2">
+<h2 class="anchored" data-anchor-id="retention-quadrant-value-vs.-risk"><strong>3. Retention Quadrant (Value vs.&nbsp;Risk)</strong></h2>
+<ul>
+<li><p><strong>Technique:</strong>&nbsp;4-Quadrant Bubble Chart.</p></li>
+<li><p><strong>Purpose:</strong>&nbsp;To facilitate strategic positioning by mapping occupations based on their average transaction volume and churn probability, highlighting high-priority “at-risk” segments.</p></li>
+</ul>
+</section>
+<section id="occupation-mix-stacked-bar-chart" class="level2">
+<h2 class="anchored" data-anchor-id="occupation-mix-stacked-bar-chart"><strong>4. Occupation Mix (Stacked Bar Chart)</strong></h2>
+<ul>
+<li><p><strong>Technique:</strong>&nbsp;100% Stacked Bar Chart with&nbsp;<code>fct_lump</code>.</p></li>
+<li><p><strong>Purpose:</strong>&nbsp;To analyze the demographic composition of each cluster, allowing users to identify if a segment is dominated by a specific profession or is more diversified.</p></li>
+</ul>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

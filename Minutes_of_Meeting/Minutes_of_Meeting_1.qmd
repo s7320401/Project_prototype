@@ -10,11 +10,11 @@ format:
 
 **\# 1 Minutes of Meeting of Visual Analytics Project AY 25-26 JAN**
 
-**Date of Meeting      :** 27 February 2026
+**Date of Meeting      :**                    27 February 2026
 
-**Location                   :** LKS Library 4-16 
+**Location                   :**                  LKS Library 4-16 
 
-**Time                           :** 19:00 – 20:30
+**Time                           :**                19:00 – 20:30
 
 **Attendees                 :  Members**
 

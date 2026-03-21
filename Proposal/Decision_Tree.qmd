@@ -1,5 +1,5 @@
 ---
-title: "Decision Tree"
+title: "Takehome Exercise 2 Decision Tree"
 author: "SU Bo-Han"
 date: "March 13, 2026"
 date-modified: "last-modified"
@@ -91,8 +91,6 @@ df_test  <- df[-trainIndex, ]
 ```{r}
 #| message: false
 #| warning: false
-#| echo: true
-#| output: false
 repeatcvControl <- trainControl(
   method = "repeatedcv",
   number = 10,
@@ -191,3 +189,92 @@ ggplot(rsquared_plot, aes(x = tree_range, y = rsquared_trees)) +
   theme_minimal() +
   theme(plot.title = element_text(face = "bold", size = 14))
 ```
+
+# Mapping R Parameters to Shiny UI Components
+
+## Mapping Table
+
+|  |  |  |  |
+|------------------|------------------|------------------|------------------|
+| **Module** | **Parameter** | **Shiny UI Input** | **Description** |
+| **Global Filter** | `income_bracket` | `selectInput()` | Allow users to filter specific income groups to enable localized model analysis. |
+| **Decision Tree** | `cp` (Complexity) | `sliderInput()` | Dynamically adjust pruning parameters to balance model overfitting and underfitting. |
+| **Decision Tree** | `max_depth` | `sliderInput()` | Limit the maximum tree depth to ensure interactive visualizations remain clean and readable. |
+| **Random Forest** | `num_trees` | `sliderInput()` | Adjust the number of trees in the forest to observe changes in model stability and R2 values. |
+| **Random Forest** | `run_rf` | `actionButton()` | Reduce server computational load by using action buttons for event-driven reactivity. |
+| **What-If Simulator** | `age`, `tenure`, etc. | `numericInput()` & `sliderInput()` | Enable users to input specific customer features for real-time churn risk prediction. |
+| **What-If Simulator** | `predict_sim` | `actionButton()` | Trigger Random Forest model inference on a single test sample. |
+
+## Expected Outputs
+
+|  |  |  |  |
+|------------------|------------------|------------------|------------------|
+| **Output** | **R package** | **Shiny UI Output** | **Description** |
+| **Summary Stats** | `valueBox()` | `valueBoxOutput()` | Displays summary statistics for the selected subgroup, including **sample size**, **average risk probability**, and **top occupations**. |
+| **Interactive Tree** | `visNetwork` | `visNetworkOutput()` | Provides an **interactive decision path diagram** with **zoom and click functionalities** for granular exploration. |
+| **Diagnostics** | `plotcp()` | `plotOutput()` | Visualizes the **Complexity Parameter (CP) plot** to assist users in identifying the **optimal pruning point** to prevent overfitting. |
+| **Performance** | `plotly` | `plotlyOutput()` | Generates an **interactive scatter plot** comparing **predicted values vs. actual observations** to evaluate model fit. |
+| **Variable Imp.** | `ggplot2` | `plotOutput()` | Presents the **variable importance ranking** to highlight the most significant drivers of customer churn. |
+| **Automated Text** | `renderUI()` | `uiOutput()` | Automatically generates **dynamic textual insights** and interpretations based on real-time model execution results. |
+
+## UI Selection Rationale Table
+
+|  |  |  |
+|------------------------|------------------------|------------------------|
+| **Parameter** | **UI Component** | **Rationale** |
+| **Complexity (CP)** | `sliderInput()` | Allows users to fine-tune the pruning threshold within a specific range with immediate visual feedback. |
+| **Max Depth** | `sliderInput()` | Best for constrained integer ranges, preventing users from entering values that might cause computational lag. |
+| **Income Bracket** | `selectInput()` | Ideal for categorical data, providing a clean dropdown list for users to select specific customer segments. |
+| **Number of Trees** | `sliderInput()` | Uses a step of 10 to balance model stability and processing time, ensuring a smooth user experience. |
+| **Occupation** | `selectInput()` | Since there are multiple categories, a dropdown menu saves sidebar space compared to radio buttons. |
+| **Run RF** | `actionButton()` | Essential for heavy computations; it prevents the app from recalculating every time a single parameter changes (Event Reactivity). |
+
+# UI Design (Storyboard)
+
+The following storyboards illustrate the interactive layout of the three main modules. Each component is optimized to guide users from technical parameter tuning to actionable business insights.
+
+## Module 1: Decision Tree Analysis
+
+![](images/clipboard-1604078278.png)
+
+This module focuses on transparency, allowing users to trace the logic of customer churn through an interactive tree.
+
+-   **Logic Path Discovery:** Users can manipulate hyperparameters to see how the tree structure adapts in real-time.
+
+-   **Segment Health:** High-level KPIs provide immediate context for the filtered customer subgroup.
+
+## Module 2: Random Forest & What-If Simulator
+
+![](images/clipboard-1751439232.png)
+
+This module provides a more robust predictive engine and a sandbox environment for individual risk assessment.
+
+-   **Model Confidence:** By comparing actual vs. predicted results, users can verify the model's reliability (R2) before making decisions.
+
+-   **Predictive Simulation:** The "What-If" area allows front-line staff to input specific customer profiles and receive instant risk scores.
+
+## Module 3: Automated Insights
+
+![](images/clipboard-3105046844.png)
+
+The final module bridges the gap between complex machine learning outputs and business interpretation.
+
+-   **Dynamic Interpretation:** Instead of just showing numbers, this panel generates automated text summaries that highlight the most significant churn drivers based on the current model run.
+
+# **Selection of Visualisation Techniques & Design Principles**
+
+This section outlines the design choices and interactivity principles implemented to ensure an effective user experience for clustering analysis:
+
+-   **Strategic Prioritization (infoBox & uiOutput):** High-level rankings (Gold, Silver, Bronze) are placed at the top of the dashboard. This follows the **"Overview First"** design pattern, providing immediate situational awareness of the most critical customer segments before users dive into technical details.
+
+<!-- -->
+
+-   **Cluster Diagnosis (Elbow Plot):** A line chart with point markers is used to visualize the Total Within-cluster Sum of Squares (WSS). This ensures **"Model Transparency,"** allowing users to mathematically justify and validate the selection of the cluster count (k).
+
+-   **Behavioral Mapping (Scatter Plot & plotly):** An interactive scatter plot with **Log-Log scaling** is used to handle highly skewed transaction data. Integrating `plotly` supports the **"Details-on-Demand"** principle, where users can hover over data points to identify specific occupations within each cluster.
+
+-   **Strategic Positioning (Retention Quadrant):** A 4-quadrant bubble chart maps average volume against churn risk. This enables **"Actionable Insights,"** helping stakeholders visually categorize occupations into "High-Value/High-Risk" quadrants for prioritized intervention.
+
+-   **Demographic Composition (Stacked Bar Chart):** A 100% stacked bar chart provides a clear view of cluster makeup. By applying `fct_lump` to handle high-cardinality occupations, the design reduces **"Cognitive Overload,"** ensuring the most dominant segments are easily identifiable.
+
+-   **Performance Optimization (Event Reactivity):** To ensure a responsive UX, `actionButton()` and `eventReactive()`are used for K-means computations. This implements **"Execution Control,"** preventing server lag by ensuring heavy analytical calculations only occur when the user is ready.

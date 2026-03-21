@@ -8,7 +8,7 @@
 
 <meta name="author" content="YU DONGHUI">
 
-<title>Exploratory Data Analysis</title>
+<title>TH_EX2 Exploratory Data Analysis</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -179,7 +179,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Minutes_of_Meeting/Minutes_of_Meeting_3.qmd" class="sidebar-item-text sidebar-link">
+  <a href="../Minutes_of_Meeting/Minutes_of_Meeting_3.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Minutes of Meeting 3</span></a>
   </div>
 </li>
@@ -245,6 +245,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#churn-probability-by-number-of-support-tickets" id="toc-churn-probability-by-number-of-support-tickets" class="nav-link" data-scroll-target="#churn-probability-by-number-of-support-tickets"><strong>7. Churn Probability by Number of Support Tickets</strong></a></li>
   <li><a href="#customer-tenure-vs-churn" id="toc-customer-tenure-vs-churn" class="nav-link" data-scroll-target="#customer-tenure-vs-churn"><strong>8. Customer Tenure vs Churn</strong></a></li>
   <li><a href="#active-products-vs-churn" id="toc-active-products-vs-churn" class="nav-link" data-scroll-target="#active-products-vs-churn"><strong>9. Active Products vs Churn</strong></a></li>
+  <li><a href="#prototype-dashboard-user-guide" id="toc-prototype-dashboard-user-guide" class="nav-link" data-scroll-target="#prototype-dashboard-user-guide"><strong>10. Prototype Dashboard User Guide</strong></a></li>
+  <li><a href="#overview-dashboard" id="toc-overview-dashboard" class="nav-link" data-scroll-target="#overview-dashboard"><strong>10.1 Overview Dashboard</strong></a></li>
+  <li><a href="#distribution-analysis" id="toc-distribution-analysis" class="nav-link" data-scroll-target="#distribution-analysis"><strong>10.2 Distribution Analysis</strong></a></li>
+  <li><a href="#relationship-exploration" id="toc-relationship-exploration" class="nav-link" data-scroll-target="#relationship-exploration"><strong>10.3 Relationship Exploration</strong></a></li>
+  <li><a href="#correlation-analysis" id="toc-correlation-analysis" class="nav-link" data-scroll-target="#correlation-analysis"><strong>10.4 Correlation Analysis</strong></a></li>
+  <li><a href="#customer-segment-profiling" id="toc-customer-segment-profiling" class="nav-link" data-scroll-target="#customer-segment-profiling"><strong>10.5 Customer Segment Profiling</strong></a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><strong>11. Summary</strong></a></li>
   </ul>
 </nav>
     </div>
@@ -253,7 +260,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Proposal/Data_Preparation.html">Data Analysis</a></li><li class="breadcrumb-item"><a href="../Proposal/eda.html">Exploratory Data Analysis</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Exploratory Data Analysis</h1>
+<h1 class="title">TH_EX2 Exploratory Data Analysis</h1>
 </div>
 
 
@@ -561,6 +568,112 @@ This analysis examines how the number of active products held by a customer rela
 </div>
 </div>
 <p>The boxplot illustrates whether customers who hold more products tend to exhibit lower churn risk compared with customers with fewer active products.</p>
+<hr>
+</section>
+<section id="prototype-dashboard-user-guide" class="level2">
+<h2 class="anchored" data-anchor-id="prototype-dashboard-user-guide"><strong>10. Prototype Dashboard User Guide</strong></h2>
+<p>This section describes the design and usage of the prototype visual analytics dashboard developed using Shiny.<br>
+The dashboard enables users to interactively explore customer churn patterns and behavioral indicators derived from the EDA analysis.</p>
+<p>The prototype interface contains four main analytical modules:</p>
+<ul>
+<li>Overview of customer indicators</li>
+<li>Distribution analysis</li>
+<li>Relationship exploration</li>
+<li>Correlation analysis</li>
+<li>Customer segment profiling</li>
+</ul>
+<p>These modules allow users to examine churn risk from multiple perspectives and support exploratory investigation of customer behavior patterns.</p>
+<hr>
+</section>
+<section id="overview-dashboard" class="level2">
+<h2 class="anchored" data-anchor-id="overview-dashboard"><strong>10.1 Overview Dashboard</strong></h2>
+<p><img src="images/clipboard-1668944365.png" class="img-fluid"></p>
+<p>The <strong>Overview page</strong> provides a high-level summary of key customer indicators.</p>
+<p>Key components include:</p>
+<ul>
+<li>Total number of customers in the dataset</li>
+<li>Average churn probability</li>
+<li>Average number of active products</li>
+<li>Average satisfaction score</li>
+</ul>
+<p>These indicators allow users to quickly understand the overall customer profile and risk level before conducting deeper analysis.</p>
+<hr>
+</section>
+<section id="distribution-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="distribution-analysis"><strong>10.2 Distribution Analysis</strong></h2>
+<p><img src="images/clipboard-2861054610.png" class="img-fluid"></p>
+<p>The <strong>Distribution Analysis module</strong> visualizes the distribution of important behavioral and engagement variables.</p>
+<p>Users can explore variables such as:</p>
+<ul>
+<li>transaction volume</li>
+<li>transaction count</li>
+<li>average transaction value</li>
+<li>customer tenure</li>
+<li>churn probability</li>
+</ul>
+<p>Histograms allow analysts to identify skewness, outliers, and variability across the dataset.</p>
+<hr>
+</section>
+<section id="relationship-exploration" class="level2">
+<h2 class="anchored" data-anchor-id="relationship-exploration"><strong>10.3 Relationship Exploration</strong></h2>
+<p><img src="images/clipboard-2610100679.png" class="img-fluid"></p>
+<p>The <strong>Relationship Exploration module</strong> investigates how customer attributes relate to churn probability.</p>
+<p>Examples of relationships visualized include:</p>
+<ul>
+<li>churn probability vs NPS score</li>
+<li>churn probability vs satisfaction score</li>
+<li>churn probability vs number of active products</li>
+<li>churn probability vs customer tenure</li>
+</ul>
+<p>Scatter plots and boxplots help reveal potential behavioral patterns associated with higher churn risk.</p>
+<hr>
+</section>
+<section id="correlation-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="correlation-analysis"><strong>10.4 Correlation Analysis</strong></h2>
+<p><img src="images/clipboard-960189920.png" class="img-fluid"></p>
+<p>The <strong>Correlation Analysis module</strong> displays a correlation matrix between churn probability and key behavioral indicators.</p>
+<p>This module helps users identify which variables are strongly associated with churn risk, including:</p>
+<ul>
+<li>transaction activity</li>
+<li>satisfaction indicators</li>
+<li>support interaction variables</li>
+<li>engagement metrics</li>
+</ul>
+<p>The correlation heatmap provides a quick overview of variable relationships across the dataset.</p>
+<hr>
+</section>
+<section id="customer-segment-profiling" class="level2">
+<h2 class="anchored" data-anchor-id="customer-segment-profiling"><strong>10.5 Customer Segment Profiling</strong></h2>
+<p><img src="images/clipboard-2303684489.png" class="img-fluid"></p>
+<p>The <strong>Customer Segment Profiling module</strong> summarizes behavioral patterns across CLV segments.</p>
+<p>Customers are grouped into segments such as:</p>
+<ul>
+<li>Bronze</li>
+<li>Silver</li>
+<li>Gold</li>
+<li>Platinum</li>
+</ul>
+<p>For each segment, the dashboard visualizes:</p>
+<ul>
+<li>average churn probability</li>
+<li>average transaction activity</li>
+<li>average satisfaction score</li>
+<li>number of active products</li>
+</ul>
+<p>This analysis helps analysts understand how high-value customers differ from lower-value segments in terms of engagement and churn risk.</p>
+<hr>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary"><strong>11. Summary</strong></h2>
+<p>The prototype dashboard integrates multiple exploratory modules to support churn risk analysis.</p>
+<p>Through interactive visualizations, users can:</p>
+<ul>
+<li>understand overall customer characteristics</li>
+<li>explore variable distributions</li>
+<li>analyze relationships between engagement indicators and churn</li>
+<li>compare behavioral patterns across customer segments</li>
+</ul>
+<p>These insights provide a foundation for further predictive modeling and the development of customer retention strategies.</p>
 
 
 </section>

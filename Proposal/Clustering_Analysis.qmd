@@ -1,5 +1,5 @@
 ---
-title: "Clustering Analysis"
+title: "Takehome Exercise 2 Clustering Analysis"
 author: "SU Bo-Han"
 date: "March 13, 2026"
 date-modified: "last-modified"
@@ -226,3 +226,107 @@ print(persona_summary_pro)
 -   **Segment 2 \| Premier High-Earners (**n=1,583): This elite group, dominated by **Accountants and Real Estate Agents**, yields the highest average transaction volume (\~59.7M). They are the prime targets for premium loyalty programs and high-tier financial products.
 
 -   **Segment 3 \| Emerging Budget Segment (**n=1,141): Consisting of **Salespeople, Farmers, and Designers**, this group exhibits lower transaction volumes (\~14.6M). These customers may benefit from growth-oriented micro-services or entry-level financial tools.
+
+# Mapping R Parameters to Shiny UI Components
+
+## Mapping Table
+
+|  |  |  |  |
+|------------------|------------------|------------------|------------------|
+| **Module** | **Parameter** | **Shiny UI Input** | **Description** |
+| **Data Control** | `sample_size` | `selectInput()` | Allows users to choose data subsets (5k, 10k, 20k) to optimize server performance vs. analysis depth. |
+| **Data Control** | `run_analysis` | `actionButton()` | Employs **event-driven reactivity** to trigger heavy K-means calculations only when requested, saving computational resources. |
+| **K-means Model** | `k_val` | `sliderInput()` | Dynamically adjusts the number of clusters ($k$) to explore different levels of customer segmentation granularity. |
+| **Strategic Logic** | `w_vol` | `sliderInput()` | Adjusts the weight of **Transaction Volume** in the priority algorithm to focus on revenue-heavy segments. |
+| **Strategic Logic** | `w_risk` | `sliderInput()` | Adjusts the weight of **Churn Probability** to prioritize defensive strategies for at-risk segments. |
+| **Visual Analytics** | `cluster_scatter` | `plotlyOutput()` | Visualizes behavioral distances using **log-transformed** axes to handle skewed transaction distributions. |
+| **Strategic Output** | `priority_boxes` | `uiOutput()` | Renders dynamic Rank Cards (Gold, Silver, Bronze) based on a weighted scoring of Volume, Satisfaction, and Risk. |
+| **Strategic Output** | `persona_table` | `DTOutput()` | Provides a high-level summary of cluster personas, including the "Top 3 Occupations" and average churn metrics. |
+
+## User Input Parameters (Inputs)
+
+|  |  |  |
+|------------------------|------------------------|------------------------|
+| **Parameter Name** | **UI Input ID** | **Description** |
+| **Data Sample Size** | `sample_size` | Allows users to choose between 5k, 10k, or 20k records to balance performance and granularity. |
+| **Number of Clusters (**$k$) | `k_val` | A slider to dynamically adjust the K-means $k$ parameter (Range: 2–8). |
+| **Strategic Weights** | `w_vol`, `w_risk` | Sliders (0–1) that allow users to prioritize transaction volume vs. churn risk in the ranking logic. |
+| **Execution Trigger** | `run_analysis` | An action button that prevents unnecessary re-calculations until the user is ready. |
+
+## Visual & Data Outputs (Outputs)
+
+|  |  |  |
+|------------------------|------------------------|------------------------|
+| **Output Name** | **UI Output ID** | **Description** |
+| **Priority InfoBoxes** | `priority_boxes` | Top 3 ranked occupations based on the weighted strategic score (Gold, Silver, Bronze). |
+| **Strategy Card** | `active_strategy_card` | A dynamic UI element that identifies the "Strategy Mode" (e.g., Premium, Defensive). |
+| **Elbow Plot** | `elbow_plot` | A static ggplot diagnostic tool to help users identify the optimal $k$. |
+| **Behavioral Map** | `cluster_scatter` | An interactive Plotly scatter plot showing the clusters in log-scale. |
+| **Retention Quadrant** | `quadrant_plot` | A Plotly bubble chart mapping churn risk against transaction volume. |
+| **Segment Summary** | `persona_table` | A DT table summarizing the Top 3 occupations and key metrics per cluster. |
+
+## User Interface (UI) Selection Rationale Table
+
+|  |  |  |
+|------------------------|------------------------|------------------------|
+| **Parameter** | **UI Component** | **Rationale** |
+| **Data Sample Size** | `selectInput()` | Ideal for providing a discrete list of optimized choices (5k, 10k, 20k). This prevents users from entering arbitrary large numbers that could crash the Shiny server. |
+| **Clusters (**$k$) | `sliderInput()` | Enables intuitive exploration of model granularity. The sliding mechanism allows users to "feel" the transition between different cluster counts while observing the Elbow Plot. |
+| **Strategic Weights** | `sliderInput()` | Uses a step of 0.1 to allow precise "tuning" of the business strategy. This provides a tactile way for managers to balance the trade-off between Volume and Risk. |
+| **Execute Analysis** | `actionButton()` | **Critical for Event Reactivity.** Since K-means and scoring calculations are computationally expensive, this ensures the app only updates once all parameters are finalized. |
+| **Strategic Rankings** | `infoBox()` | Leveraging **Visual Hierarchy**, these boxes use semantic colors (Gold, Silver, Bronze) and icons to provide immediate, high-level insights for decision-makers. |
+| **Behavioral Maps** | `plotlyOutput()` | Unlike static plots, Plotly allows for **Hover Interactivity**, enabling users to identify specific "Occupations" behind the data points for better persona validation. |
+| **Persona Summary** | `DTOutput()` | Chosen for its built-in search and pagination. It allows users to drill down into cluster-specific metrics without overwhelming the dashboard's visual real-time space. |
+| **Navigation** | `dashboardSidebar()` | Provides a **Separation of Concerns** by isolating control settings and high-level navigation from the main analytical workspace, reducing cognitive load. |
+
+# UI Design (Storyboard)
+
+The storyboard outlines the user journey and the spatial organization of the "Clustering Analysis Dashboard."
+
+## The Control Center (Sidebar)
+
+-   **Parameter Tuning:** The sidebar serves as the primary navigation and configuration hub, where users define the scope of analysis via sample size and cluster counts.
+
+-   **Strategic Weighting:** Users can interactively shift the dashboard's focus between revenue (Volume) and stability (Risk) using intuitive sliders, allowing for real-time strategy simulation.
+
+## **Executive Summary (Top Tier)**
+
+-   **Priority Ranking:** At the top of the page, high-impact segments are immediately highlighted using Gold, Silver, and Bronze Rank cards to guide rapid decision-making.
+
+-   **Strategic Guidance:** The central recommendation panel translates complex cluster metrics into plain-English managerial actions based on the active strategy mode.
+
+## **Analytical Deep-Dive (Middle & Bottom Tier)**
+
+-   **Diagnostic & Distribution:** The middle tier provides the technical foundation, showing the mathematical validity of the clusters and their distribution in the behavioral space.
+
+-   **Composition & Persona:** The final tier decomposes clusters by occupation and displays a detailed summary table to provide the "human" context behind the numbers.
+
+![](images/clipboard-1063434652.png)
+
+# Selection of Visualisation Techniques & Design Principles
+
+This section outlines the strategic choice of visual elements and the underlying design principles applied to ensure the dashboard provides actionable insights for business stakeholders.
+
+## **1. Model Diagnosis (Elbow Plot)**
+
+-   **Technique:** Line Chart with point markers.
+
+-   **Purpose:** To assist users in mathematically determining the optimal number of clusters (k) by identifying the "elbow point" where the Total Within-cluster Sum of Squares (WSS) stabilizes.
+
+## **2. Behavioral Map (Scatter Plot)**
+
+-   **Technique:** Interactive Scatter Plot with Log-Log scaling.
+
+-   **Purpose:** To visualize the behavioral distance between clusters while handling the extreme skewness of transaction data through log transformation.
+
+## **3. Retention Quadrant (Value vs. Risk)**
+
+-   **Technique:** 4-Quadrant Bubble Chart.
+
+-   **Purpose:** To facilitate strategic positioning by mapping occupations based on their average transaction volume and churn probability, highlighting high-priority "at-risk" segments.
+
+## **4. Occupation Mix (Stacked Bar Chart)**
+
+-   **Technique:** 100% Stacked Bar Chart with `fct_lump`.
+
+-   **Purpose:** To analyze the demographic composition of each cluster, allowing users to identify if a segment is dominated by a specific profession or is more diversified.

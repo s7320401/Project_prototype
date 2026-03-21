@@ -1,5 +1,5 @@
 ---
-title: "Exploratory Data Analysis"
+title: "TH_EX2 Exploratory Data Analysis"
 author: "YU DONGHUI"
 format:
   html:
@@ -281,3 +281,128 @@ ggplot(
 ```
 
 The boxplot illustrates whether customers who hold more products tend to exhibit lower churn risk compared with customers with fewer active products.
+
+------------------------------------------------------------------------
+
+## **10. Prototype Dashboard User Guide**
+
+This section describes the design and usage of the prototype visual analytics dashboard developed using Shiny.\
+The dashboard enables users to interactively explore customer churn patterns and behavioral indicators derived from the EDA analysis.
+
+The prototype interface contains four main analytical modules:
+
+-   Overview of customer indicators
+-   Distribution analysis
+-   Relationship exploration
+-   Correlation analysis
+-   Customer segment profiling
+
+These modules allow users to examine churn risk from multiple perspectives and support exploratory investigation of customer behavior patterns.
+
+------------------------------------------------------------------------
+
+## **10.1 Overview Dashboard**
+
+![](images/clipboard-1668944365.png)
+
+The **Overview page** provides a high-level summary of key customer indicators.
+
+Key components include:
+
+-   Total number of customers in the dataset
+-   Average churn probability
+-   Average number of active products
+-   Average satisfaction score
+
+These indicators allow users to quickly understand the overall customer profile and risk level before conducting deeper analysis.
+
+------------------------------------------------------------------------
+
+## **10.2 Distribution Analysis**
+
+![](images/clipboard-2861054610.png)
+
+The **Distribution Analysis module** visualizes the distribution of important behavioral and engagement variables.
+
+Users can explore variables such as:
+
+-   transaction volume
+-   transaction count
+-   average transaction value
+-   customer tenure
+-   churn probability
+
+Histograms allow analysts to identify skewness, outliers, and variability across the dataset.
+
+------------------------------------------------------------------------
+
+## **10.3 Relationship Exploration**
+
+![](images/clipboard-2610100679.png)
+
+The **Relationship Exploration module** investigates how customer attributes relate to churn probability.
+
+Examples of relationships visualized include:
+
+-   churn probability vs NPS score
+-   churn probability vs satisfaction score
+-   churn probability vs number of active products
+-   churn probability vs customer tenure
+
+Scatter plots and boxplots help reveal potential behavioral patterns associated with higher churn risk.
+
+------------------------------------------------------------------------
+
+## **10.4 Correlation Analysis**
+
+![](images/clipboard-960189920.png)
+
+The **Correlation Analysis module** displays a correlation matrix between churn probability and key behavioral indicators.
+
+This module helps users identify which variables are strongly associated with churn risk, including:
+
+-   transaction activity
+-   satisfaction indicators
+-   support interaction variables
+-   engagement metrics
+
+The correlation heatmap provides a quick overview of variable relationships across the dataset.
+
+------------------------------------------------------------------------
+
+## **10.5 Customer Segment Profiling**
+
+![](images/clipboard-2303684489.png)
+
+The **Customer Segment Profiling module** summarizes behavioral patterns across CLV segments.
+
+Customers are grouped into segments such as:
+
+-   Bronze
+-   Silver
+-   Gold
+-   Platinum
+
+For each segment, the dashboard visualizes:
+
+-   average churn probability
+-   average transaction activity
+-   average satisfaction score
+-   number of active products
+
+This analysis helps analysts understand how high-value customers differ from lower-value segments in terms of engagement and churn risk.
+
+------------------------------------------------------------------------
+
+## **11. Summary**
+
+The prototype dashboard integrates multiple exploratory modules to support churn risk analysis.
+
+Through interactive visualizations, users can:
+
+-   understand overall customer characteristics
+-   explore variable distributions
+-   analyze relationships between engagement indicators and churn
+-   compare behavioral patterns across customer segments
+
+These insights provide a foundation for further predictive modeling and the development of customer retention strategies.

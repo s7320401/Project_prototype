@@ -1,0 +1,85 @@
+---
+title: "Minutes of Meeting 3"
+author: "SU Bo-Han"
+date: "March 21, 2026"
+date-modified: "last-modified"
+format: 
+  html:
+    theme: cosmo  
+---
+
+**\# 3 Minutes of Meeting of Visual Analytics Project AY 25-26 JAN**
+
+**Date of Meeting      :**                    13 March 2026
+
+**Location                   :**                  LKS Library 5-9 
+
+**Time                           :**                18:00 – 20:30
+
+**Attendees                 :  Members**
+
+                                    Mr. DODDAPANENI Virinchi                      DV
+
+                                    Mr. SU Bo-Han                                             BH
+
+                                    Mr. YU Dong Hui                                          DH
+
+**Notes of Minutes**
+
+|  |  |  |  |  |  |  |
+|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+|  |  |  |  |  |  |  |
+|  | **Item** |  | **Notes** |  | **Action** |  |
+|  |  |  |  |  |  |  |
+|  | **1** |  | **Overall Project Progress Review** |  |  |  |
+|  |  |  |  |  |  |  |
+|  |  |  | **BH:** Completed Data Preparation, including data cleaning, transformation, and final dataset preparation for analysis. |  |  |  |
+|  |  |  |  |  |  |  |
+|  |  |  | **DH:** Completed Exploratory Data Analysis (EDA), including distributions, relationships, correlation analysis, and segmentation insights. |  |  |  |
+|  |  |  |  |  |  |  |
+|  |  |  | **DV:** Completed Confirmatory Data Analysis (CDA), focusing on validating key relationships using statistical methods. |  |  |  |
+|  |  |  |  |  |  |  |
+|  |  |  | All core analytical components (Data Preparation, EDA, CDA, Clustering, Decision Tree) are completed. |  | Proceed to final refinement |  |
+|  |  |  |  |  |  |  |
+|  | **2** |  | **Analytical Results Alignment** |  |  |  |
+|  |  |  |  |  |  |  |
+|  |  |  | **BH:** Presented Clustering Analysis results, identifying 3 key customer. segments based on behavioral pattern. |  |  |  |
+|  |  |  |  |  |  |  |
+|  |  |  | **BH:** Explained Decision Tree model, highlighting key drivers such as active products, age, and satisfaction score. |  |  |  |
+|  |  |  |  |  |  |  |
+|  |  |  | Team agreed to focus on business interpretation instead of increasing technical complexity |  | Refine explanations |  |
+|  |  |  |  |  |  |  |
+|  | **3** |  | **Dashboard and Website Integration** |  |  |  |
+|  |  |  |  |  |  |  |
+|  |  |  | **DV:** Reviewed overall website structure and confirmed all sections are properly organized. |  |  |  |
+|  |  |  |  |  |  |  |
+|  |  |  | **DH:** Suggested improving consistency in layout, wording, and visualization presentation. |  |  |  |
+|  |  |  |  |  |  |  |
+|  |  |  | Team agreed to ensure a consistent narrative across all sections. |  | Standardize formatting |  |
+|  |  |  |  |  |  |  |
+|  | **4** |  | **Final Content Refinement** |  |  |  |
+|  |  |  |  |  |  |  |
+|  |  |  | **DH:** Responsible for refining EDA and dashboard visual presentation. |  |  |  |
+|  |  |  |  |  |  |  |
+|  |  |  | **DV:** Responsible for refining CDA interpretation and clarity. |  |  |  |
+|  |  |  |  |  |  |  |
+|  |  |  | **BH:** Responsible for final review of Data Preparation, refining Clustering and Decision Tree sections. |  |  |  |
+|  |  |  |  |  |  |  |
+|  |  |  | All members agreed to perform final checks on their respective component. |  | Complete final review |  |
+|  |  |  |  |  |  |  |
+|  | **5** |  | **Division of Work and Submission** |  |  |  |
+|  |  |  |  |  |  |  |
+|  |  |  | **BH:** Finalize Minutes of Meeting 3 and review technical sections. |  | **Confirmed Date/Time:** 6 March 2026 at 18:00. |  |
+|  |  |  |  |  |  |  |
+|  |  |  | **DH:** Finalize EDA and dashboard sections. |  |  |  |
+|  |  |  |  |  |  |  |
+|  |  |  | **DV:**Finalize CDA sections. |  |  |  |
+|  |  |  |  |  |  |  |
+|  |  |  | All component are ready for submission after minor refinements. |  | Prepare submission |  |
+|  |  |  |  |  |  |  |
+|  | **6** |  | **Final Confirmation** |  |  |  |
+|  |  |  | Team confirmed completion of all project requirements. |  |  |  |
+|  |  |  |  |  |  |  |
+|  |  |  | No further physical meetings required. Final coordination via online communication. |  | Close Project |  |
+|  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |
