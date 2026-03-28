@@ -196,7 +196,7 @@ ggplot(rsquared_plot, aes(x = tree_range, y = rsquared_trees)) +
 ## Mapping Table
 
 |  |  |  |  |
-|----|----|----|----|
+|------------------|------------------|------------------|------------------|
 | **Module** | **Parameter** | **Shiny UI Input** | **Description** |
 | **Global Filter** | `income_bracket` | `selectInput()` | Allow users to filter specific income groups to enable localized model analysis. |
 | **Decision Tree** | `cp` (Complexity) | `sliderInput()` | Dynamically adjust pruning parameters to balance model overfitting and underfitting. |
@@ -209,7 +209,7 @@ ggplot(rsquared_plot, aes(x = tree_range, y = rsquared_trees)) +
 ## Expected Outputs
 
 |  |  |  |  |
-|----|----|----|----|
+|------------------|------------------|------------------|------------------|
 | **Output** | **R package** | **Shiny UI Output** | **Description** |
 | **Summary Stats** | `valueBox()` | `valueBoxOutput()` | Displays summary statistics for the selected subgroup, including **sample size**, **average risk probability**, and **top occupations**. |
 | **Interactive Tree** | `visNetwork` | `visNetworkOutput()` | Provides an **interactive decision path diagram** with **zoom and click functionalities** for granular exploration. |
@@ -221,7 +221,7 @@ ggplot(rsquared_plot, aes(x = tree_range, y = rsquared_trees)) +
 ## UI Selection Rationale Table
 
 |  |  |  |
-|----|----|----|
+|------------------------|------------------------|------------------------|
 | **Parameter** | **UI Component** | **Rationale** |
 | **Complexity (CP)** | `sliderInput()` | Allows users to fine-tune the pruning threshold within a specific range with immediate visual feedback. |
 | **Max Depth** | `sliderInput()` | Best for constrained integer ranges, preventing users from entering values that might cause computational lag. |
@@ -236,7 +236,7 @@ The following storyboards illustrate the interactive layout of the three main mo
 
 ## Module 1: Decision Tree Analysis
 
-![](images/clipboard-1604078278.png)
+![](images/clipboard-1751439232.png)
 
 This module focuses on transparency, allowing users to trace the logic of customer churn through an interactive tree.
 
@@ -246,7 +246,7 @@ This module focuses on transparency, allowing users to trace the logic of custom
 
 ## Module 2: Random Forest & What-If Simulator
 
-![](images/clipboard-1751439232.png)
+![](images/clipboard-3105046844.png)
 
 This module provides a more robust predictive engine and a sandbox environment for individual risk assessment.
 
@@ -256,7 +256,7 @@ This module provides a more robust predictive engine and a sandbox environment f
 
 ## Module 3: Automated Insights
 
-![](images/clipboard-3105046844.png)
+![](images/clipboard-1604078278.png)
 
 The final module bridges the gap between complex machine learning outputs and business interpretation.
 
